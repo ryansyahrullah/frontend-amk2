@@ -22,24 +22,21 @@
           <div class="space-y-6">
             <p class="text-sm font-semibold uppercase tracking-[0.45em] text-white/70">AMK PORTAL</p>
             <h1 class="text-4xl font-semibold leading-snug sm:text-[2.65rem]">
-              Akses terpadu untuk tim dan manajemen.
+              PT ANUEGARA MITRA KALIMANTAN
             </h1>
-            <p class="max-w-sm text-base text-white/85">
-              Satu pintu untuk mengelola data kepegawaian, operasional, dan layanan karyawan di lingkungan AMK secara aman.
-            </p>
           </div>
           <div class="mt-16 flex items-center gap-4 text-sm text-white/80">
             <div class="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur">
-              <p class="text-xs uppercase tracking-[0.4em] text-white/60">Terproteksi</p>
-              <p class="text-sm font-semibold text-white">Keamanan data diawasi secara menyeluruh.</p>
+              <p class="text-xs uppercase tracking-[0.4em] text-white/60">SISTEM MANAJAMEN AMK</p>
+              <p class="text-sm font-semibold text-white">KEMUDAHAN AKSES DIMANA SAJA DAN KAPAN SAJA</p>
             </div>
           </div>
         </div>
       </section>
       <section class="rounded-3xl border border-slate-200/60 bg-white/90 p-8 shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80">
         <div class="mb-8 space-y-2">
-          <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Masuk ke AMK PORTAL</h2>
-          <p class="text-sm text-slate-500 dark:text-slate-400">Silakan masukkan kredensial resmi Anda untuk melanjutkan.</p>
+          <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">MASUK AMK PORTAL</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400">Silakan masukkan NRP dan kata sandi Anda</p>
         </div>
         <form class="space-y-5" @submit.prevent="onSubmit">
           <div>
@@ -49,13 +46,11 @@
               v-model="form.nrp"
               type="text"
               autocomplete="username"
-              placeholder="Masukkan NRP Anda (Superadmin gunakan email)"
+              placeholder="Masukkan NRP"
               class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100"
             />
             <p v-if="errors.nrp" class="mt-1 text-xs text-rose-500 dark:text-rose-300">{{ errors.nrp }}</p>
-            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-              Format NRP: <span class="font-mono">AMK122001</span>, <span class="font-mono">AMK122002</span>, dan seterusnya.
-            </p>
+      
           </div>
           <div>
             <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kata Sandi</label>
