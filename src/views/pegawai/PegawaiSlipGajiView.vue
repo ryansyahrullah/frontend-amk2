@@ -13,7 +13,7 @@
     </header>
     <div class="space-y-6 rounded-3xl border border-dashed border-slate-300 bg-white/70 p-10 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/70">
       <p class="text-sm text-slate-600 dark:text-slate-300">
-        Nantikan pembaruan berikutnya. Anda akan menerima notifikasi ketika slip gaji digital sudah dapat diakses langsung dari portal ini.
+        Nantikan pembaruan berikutnya. Anda akan menerima notifikasi ketika slip gaji digital sudah dapat diakses langsung dari AMK PORTAL.
       </p>
       <RouterLink
         :to="{ name: 'pegawai-dashboard' }"

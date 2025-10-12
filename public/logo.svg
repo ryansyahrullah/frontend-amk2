@@ -1,0 +1,13 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="60" rx="12" fill="url(#paint0_linear_1_1)"/>
+  <path d="M42.6 18H34.8L25.8 42H33.6L35.5 36.9H41.7L43.6 42H51.5L42.6 18ZM36.6 31.2L38.6 25.4L40.5 31.2H36.6Z" fill="white"/>
+  <path d="M64.9 42L59.2 24.9L53.6 42H46.3L56.6 18H61.7L72 42H64.9Z" fill="white"/>
+  <path d="M82.2 42V24.1H72.7V18H96.3V24.1H86.8V42H82.2Z" fill="white"/>
+  <text x="104" y="38" fill="white" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-weight="600" font-size="18">AMK PORTAL</text>
+  <defs>
+    <linearGradient id="paint0_linear_1_1" x1="0" y1="0" x2="200" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1E3A8A"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -4,30 +4,13 @@
   </transition>
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-40 flex h-screen flex-col border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900',
-      collapsed ? 'w-20' : 'w-72',
+      'fixed inset-y-0 left-0 z-40 flex h-screen w-72 flex-col border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900',
       mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
     ]"
   >
-    <div class="flex h-16 items-center justify-between px-4">
-      <div class="flex items-center gap-2" :class="collapsed ? 'w-full justify-center' : ''">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white">
-          AM
-        </div>
-        <div v-if="!collapsed" class="text-lg font-semibold text-slate-800 dark:text-slate-100">
-          AMK Portal
-        </div>
-      </div>
-      <button
-        type="button"
-        class="hidden h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 lg:flex"
-        aria-label="Sembunyikan sidebar"
-        @click="$emit('toggle-collapse')"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-        </svg>
-      </button>
+    <div class="flex h-20 items-center px-6">
+      <img src="/logo.svg" alt="Logo AMK PORTAL" class="h-12 w-auto object-contain" />
+      <span class="ml-4 text-lg font-semibold uppercase tracking-wide text-slate-800 dark:text-slate-100">AMK PORTAL</span>
     </div>
     <nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-6">
       <div v-for="item in menuItems" :key="item.id" class="space-y-1">
@@ -91,7 +74,7 @@
               <circle cx="17" cy="17" r="2.25" />
             </svg>
           </span>
-          <span v-if="!collapsed">{{ item.label }}</span>
+          <span>{{ item.label }}</span>
         </RouterLink>
         <div v-else>
           <button
@@ -139,10 +122,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25h6M9 12h6M9 15.75h3" />
                 </svg>
               </span>
-              <span v-if="!collapsed">{{ item.label }}</span>
+              <span>{{ item.label }}</span>
             </span>
             <svg
-              v-if="!collapsed"
               xmlns="http://www.w3.org/2000/svg"
               class="h-4 w-4 transition-transform"
               fill="none"
@@ -156,7 +138,7 @@
           </button>
           <transition name="accordion">
             <div
-              v-if="isExpanded(item.id) && !collapsed"
+              v-if="isExpanded(item.id)"
               class="ml-4 mt-1.5 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-800"
             >
               <RouterLink
@@ -230,12 +212,12 @@
       </div>
     </nav>
     <div class="border-t border-slate-200 px-4 py-4 dark:border-slate-800">
-      <div v-if="!collapsed" class="mb-3 flex items-center gap-3">
+      <div class="mb-3 flex items-center gap-3">
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-lg font-semibold text-primary dark:bg-primary/20">
           {{ inisialUser }}
         </div>
         <div class="text-sm">
-          <p class="font-semibold text-slate-800 dark:text-slate-100">{{ user?.nama ?? 'Admin Portal' }}</p>
+          <p class="font-semibold text-slate-800 dark:text-slate-100">{{ user?.nama ?? 'Admin AMK PORTAL' }}</p>
           <p class="text-xs text-slate-500 dark:text-slate-400">{{ user?.email ?? 'admin@gmail.com' }}</p>
         </div>
       </div>
@@ -247,13 +229,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
         </svg>
-        <span v-if="!collapsed">Keluar</span>
+        <span>Keluar</span>
       </button>
     </div>
     <ConfirmDialog
       v-model="showLogoutConfirm"
-      title="Keluar dari Portal"
-      message="Apakah Anda yakin ingin keluar dari portal?"
+      title="Keluar dari AMK PORTAL"
+      message="Apakah Anda yakin ingin keluar dari AMK PORTAL?"
       :loading="logoutLoading"
       @confirm="confirmLogout"
     />
@@ -297,17 +279,15 @@ type IconName =
   | 'site';
 
 const props = defineProps<{
-  collapsed: boolean;
   mobileOpen: boolean;
 }>();
 
-defineEmits(['close-mobile', 'toggle-collapse']);
+defineEmits(['close-mobile']);
 
 const route = useRoute();
 const router = useRouter();
 
 const mobileOpen = computed(() => props.mobileOpen);
-const collapsed = computed(() => props.collapsed);
 const showLogoutConfirm = ref(false);
 const logoutLoading = ref(false);
 
@@ -382,6 +362,26 @@ const menuByRole: Record<UserRole, MenuItem[]> = {
           icon: 'salary'
         }
       ]
+    },
+    {
+      id: 'pegawai-requests',
+      label: 'Pengajuan',
+      to: '/pegawai-saya/ajukan-cuti',
+      icon: 'list',
+      children: [
+        {
+          id: 'pegawai-apply-leave',
+          label: 'Ajukan Cuti',
+          to: '/pegawai-saya/ajukan-cuti',
+          icon: 'leave'
+        },
+        {
+          id: 'pegawai-apply-mcu',
+          label: 'Ajukan MCU',
+          to: '/pegawai-saya/ajukan-mcu',
+          icon: 'health'
+        }
+      ]
     }
   ],
   admin_finance: [
@@ -399,6 +399,15 @@ const menuByRole: Record<UserRole, MenuItem[]> = {
       label: 'Officer Site',
       to: '/officer-site',
       icon: 'site',
+      exact: true
+    }
+  ],
+  superadmin: [
+    {
+      id: 'superadmin-accounts',
+      label: 'Kelola Role Pegawai',
+      to: '/superadmin/akun',
+      icon: 'pegawai',
       exact: true
     }
   ]

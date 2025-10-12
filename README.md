@@ -1,6 +1,13 @@
-# amk-portal
+# AMK PORTAL
 
-This template should help get you started developing with Vue 3 in Vite.
+AMK PORTAL is a Vue 3 + Vite application tailored for employee and administrator workflows at AMK.
+
+## Kustomisasi Logo & Background
+
+- Letakkan berkas `logo.svg` di folder `public/` sehingga dapat diakses sebagai `/logo.svg`. Logo ini digunakan pada sidebar utama.
+- Letakkan berkas `bg.svg` di folder `public/` sehingga dapat diakses sebagai `/bg.svg`. Gambar ini menjadi latar panel hero pada halaman login.
+
+Pastikan kedua berkas tersebut sudah tersedia sebelum melakukan build agar tampilan tidak menampilkan placeholder kosong.
 
 ## Recommended IDE Setup
 

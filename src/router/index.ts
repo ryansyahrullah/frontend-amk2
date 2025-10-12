@@ -59,7 +59,7 @@ const routes: RouteRecordRaw[] = [
       layout: 'app',
       roles: ['admin_hcgs'],
       title: 'Buat Kontrak',
-      description: 'Segera buat dan kelola kontrak pegawai langsung dari portal ini.'
+      description: 'Segera buat dan kelola kontrak pegawai langsung dari AMK PORTAL.'
     }
   },
   {
@@ -105,6 +105,30 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/pegawai-saya/ajukan-cuti',
+    name: 'pegawai-apply-leave',
+    component: () => import('../views/ComingSoonView.vue'),
+    meta: {
+      requiresAuth: true,
+      layout: 'app',
+      roles: ['pegawai'],
+      title: 'Ajukan Cuti',
+      description: 'Form pengajuan cuti sedang kami siapkan agar proses permohonan lebih praktis.'
+    }
+  },
+  {
+    path: '/pegawai-saya/ajukan-mcu',
+    name: 'pegawai-apply-mcu',
+    component: () => import('../views/ComingSoonView.vue'),
+    meta: {
+      requiresAuth: true,
+      layout: 'app',
+      roles: ['pegawai'],
+      title: 'Ajukan MCU',
+      description: 'Pengajuan pemeriksaan kesehatan berkala akan segera tersedia di AMK PORTAL.'
+    }
+  },
+  {
     path: '/finance',
     name: 'finance-dashboard',
     component: () => import('../views/ComingSoonView.vue'),
@@ -126,6 +150,18 @@ const routes: RouteRecordRaw[] = [
       roles: ['officer_site'],
       title: 'Officer Site',
       description: 'Portal officer site akan segera tersedia lengkap dengan monitoring aktivitas lapangan.'
+    }
+  },
+  {
+    path: '/superadmin/akun',
+    name: 'superadmin-accounts',
+    component: () => import('../views/superadmin/SuperadminAccountsView.vue'),
+    meta: {
+      requiresAuth: true,
+      layout: 'app',
+      roles: ['superadmin'],
+      title: 'Kelola Role Pegawai',
+      description: 'Atur akses tambahan untuk setiap pegawai dari satu tempat.'
     }
   },
   {

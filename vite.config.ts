@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
       port: 5173
     },
     define: {
-      __APP_NAME__: JSON.stringify(env.VITE_APP_NAME || 'AMK Portal')
+      __APP_NAME__: JSON.stringify(env.VITE_APP_NAME || 'AMK PORTAL')
     }
   };
 });

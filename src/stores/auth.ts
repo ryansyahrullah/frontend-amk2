@@ -18,7 +18,8 @@ const roleHomeRoute: Record<UserRole, string> = {
   admin_hcgs: '/dashboard',
   pegawai: '/pegawai-saya/dashboard',
   admin_finance: '/finance',
-  officer_site: '/officer-site'
+  officer_site: '/officer-site',
+  superadmin: '/superadmin/akun'
 };
 
 export const useAuthStore = defineStore('auth', () => {
@@ -37,7 +38,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
   if (storedUser) {
     try {
-      state.user = JSON.parse(storedUser) as User;
+      const parsed = JSON.parse(storedUser) as User;
+      state.user = {
+        ...parsed,
+        roles: parsed.roles ?? (parsed.role ? [parsed.role] : undefined)
+      };
     } catch (error: unknown) {
       console.error('Gagal mengurai data pengguna dari localStorage', error);
       localStorage.removeItem(storageKeyUser);
@@ -45,6 +50,17 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const isAuthenticated = computed(() => Boolean(state.token));
+
+  const availableRoles = computed<UserRole[]>(() => {
+    if (!state.user) return [];
+    const unique = new Set<UserRole>();
+    const userRoles = state.user.roles ?? [];
+    userRoles.forEach((role) => unique.add(role));
+    if (state.user.role) {
+      unique.add(state.user.role);
+    }
+    return Array.from(unique);
+  });
 
   const defaultRoute = computed(() => {
     const role = state.user?.role;
@@ -72,10 +88,14 @@ export const useAuthStore = defineStore('auth', () => {
         nrp: payload.nrp.trim().toLowerCase()
       };
       const { data } = await http.post<AuthResponse>('/api/login', credentials);
-      state.user = data.user;
+      const userWithRoles: User = {
+        ...data.user,
+        roles: data.user.roles ?? [data.user.role]
+      };
+      state.user = userWithRoles;
       state.token = data.token;
       localStorage.setItem(storageKeyToken, data.token);
-      localStorage.setItem(storageKeyUser, JSON.stringify(data.user));
+      localStorage.setItem(storageKeyUser, JSON.stringify(userWithRoles));
       return data;
     } catch (error: unknown) {
       let message = 'Terjadi kesalahan saat masuk.';
@@ -105,6 +125,41 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const switchRole = async (role: UserRole) => {
+    if (!state.user) {
+      throw new Error('Pengguna belum masuk.');
+    }
+
+    const roles = availableRoles.value;
+    if (!roles.includes(role)) {
+      throw new Error('Role tidak tersedia untuk akun ini.');
+    }
+
+    if (state.user.role === role) {
+      return;
+    }
+
+    try {
+      const { data } = await http.post<{ user: User }>('/api/auth/switch-role', { role });
+      const updatedUser: User = {
+        ...state.user,
+        ...data.user,
+        roles: data.user.roles ?? roles
+      };
+      state.user = updatedUser;
+      localStorage.setItem(storageKeyUser, JSON.stringify(updatedUser));
+    } catch (error: unknown) {
+      let message = 'Gagal mengganti akun.';
+      if (isAxiosError(error)) {
+        const serverMessage = (error.response?.data as { message?: string } | undefined)?.message;
+        if (typeof serverMessage === 'string' && serverMessage.trim().length > 0) {
+          message = serverMessage;
+        }
+      }
+      throw new Error(message);
+    }
+  };
+
   const verifyPassword = async (password: string) => {
     if (!password || password.trim().length === 0) {
       throw new Error('Kata sandi wajib diisi.');
@@ -130,10 +185,12 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     state,
     isAuthenticated,
+    availableRoles,
     defaultRoute,
     hasRole,
     login,
     logout,
+    switchRole,
     getDefaultRoute,
     verifyPassword
   };

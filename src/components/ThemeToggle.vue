@@ -6,7 +6,8 @@
     @click="toggleTheme"
   >
     <span
-      class="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary transition dark:bg-primary/20 dark:text-primary/90"
+      class="flex h-7 w-7 items-center justify-center rounded-full transition"
+      :class="isDark ? 'bg-amber-400/20 text-amber-400 dark:bg-amber-300/20 dark:text-amber-200' : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary/90'"
     >
       <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
         <path

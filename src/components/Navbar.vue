@@ -13,11 +13,9 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </button>
-      <div class="text-lg font-semibold text-slate-800 dark:text-slate-100">
-        Portal AMK
-      </div>
     </div>
     <div class="flex items-center gap-4">
+      <AccountSwitcher />
       <ThemeToggle :compact="true" class="hidden lg:inline-flex" />
       <ThemeToggle :compact="true" class="lg:hidden" />
       <div class="flex items-center gap-3 rounded-full border border-transparent bg-slate-100 px-3 py-1 dark:bg-slate-800">
@@ -37,17 +35,11 @@
 import { computed } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import ThemeToggle from './ThemeToggle.vue';
-import type { UserRole } from '../types';
+import AccountSwitcher from './AccountSwitcher.vue';
+import { roleLabelMap } from '../constants/roles';
 
 const auth = useAuthStore();
 const user = computed(() => auth.state.user);
-
-const roleLabelMap: Record<UserRole, string> = {
-  admin_hcgs: 'Admin HCGS',
-  pegawai: 'Pegawai',
-  admin_finance: 'Admin Finance',
-  officer_site: 'Officer Site'
-};
 
 const roleLabel = computed(() => {
   const role = user.value?.role;
