@@ -22,7 +22,7 @@
           <div class="space-y-6">
             <p class="text-sm font-semibold uppercase tracking-[0.45em] text-white/70">AMK PORTAL</p>
             <h1 class="text-4xl font-semibold leading-snug sm:text-[2.65rem]">
-              PT ANUEGARA MITRA KALIMANTAN
+              PT ANUEGARAH MITRA KALIMANTAN
             </h1>
           </div>
           <div class="mt-16 flex items-center gap-4 text-sm text-white/80">
