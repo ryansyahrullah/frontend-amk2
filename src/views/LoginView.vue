@@ -7,8 +7,8 @@
     <div class="absolute right-4 top-4 z-20 sm:right-8 sm:top-8">
       <ThemeToggle />
     </div>
-    <div class="relative z-10 grid w-full max-w-4xl gap-5 sm:gap-6 lg:grid-cols-[1.1fr,1fr] lg:gap-8">
-      <section class="relative flex min-h-[320px] items-center overflow-hidden rounded-3xl shadow-glow">
+    <div class="relative z-10 w-full max-w-xl space-y-5 sm:space-y-6">
+      <section class="relative flex min-h-[190px] items-center overflow-hidden rounded-3xl shadow-glow sm:min-h-[220px]">
         <img
           src="/bg.svg"
           alt="Latar belakang AMK PORTAL"
@@ -18,16 +18,16 @@
         <div
           class="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/70 to-blue-950/80 backdrop-saturate-[1.2] dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950/85"
         ></div>
-        <div class="relative flex h-full w-full flex-col items-center justify-center gap-6 p-6 text-white text-center sm:items-start sm:text-left sm:p-8 lg:p-10">
-          <div class="space-y-6">
-            <p class="text-sm font-semibold uppercase tracking-[0.45em] text-white/70">AMK PORTAL</p>
-            <h1 class="text-2xl font-semibold leading-snug sm:text-[2.65rem]">
+        <div class="relative flex h-full w-full flex-col items-center justify-center gap-5 p-6 text-white text-center sm:gap-6 sm:p-8">
+          <div class="space-y-4 sm:space-y-5">
+            <p class="text-xs font-semibold uppercase tracking-[0.45em] text-white/70 sm:text-sm">AMK PORTAL</p>
+            <h1 class="text-xl font-semibold leading-snug sm:text-[2.25rem]">
               PT ANUEGARAH MITRA KALIMANTAN
             </h1>
           </div>
         </div>
       </section>
-      <section class="rounded-3xl border border-slate-200/60 bg-white/90 p-5 shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 sm:p-8">
+      <section class="rounded-3xl border border-slate-200/60 bg-white/90 p-5 shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 sm:p-7">
         <div class="mb-7 space-y-2">
           <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 sm:text-2xl">MASUK AMK PORTAL</h2>
           <p class="text-sm text-slate-500 dark:text-slate-400">Silakan masukkan NRP dan kata sandi Anda</p>
