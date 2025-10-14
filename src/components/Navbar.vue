@@ -2,11 +2,11 @@
   <header
     class="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur-xl shadow-sm dark:border-slate-800 dark:bg-slate-900/80"
   >
-    <div class="safe-container flex h-16 items-center justify-between gap-4">
+    <div class="safe-container flex h-14 items-center justify-between gap-3 sm:h-16 sm:gap-4">
       <div class="flex items-center gap-3">
         <button
           type="button"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 lg:hidden"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 sm:h-10 sm:w-10 lg:hidden"
           @click="$emit('toggle-sidebar')"
           aria-label="Buka navigasi"
         >

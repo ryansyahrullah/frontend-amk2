@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-6 sm:py-12">
+  <div class="relative flex min-h-screen items-center justify-center px-3 py-8 sm:px-6 sm:py-12">
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
       <div class="absolute left-1/2 top-[-20%] h-72 w-72 -translate-x-1/2 rounded-full bg-primary/20 blur-[140px]"></div>
       <div class="absolute bottom-[-25%] right-[-10%] h-80 w-80 rounded-full bg-blue-200/40 blur-[180px]"></div>
@@ -7,7 +7,7 @@
     <div class="absolute right-4 top-4 z-20 sm:right-8 sm:top-8">
       <ThemeToggle />
     </div>
-    <div class="relative z-10 grid w-full max-w-5xl gap-8 lg:grid-cols-[1.15fr,1fr] lg:gap-10">
+    <div class="relative z-10 grid w-full max-w-5xl gap-6 sm:gap-8 lg:grid-cols-[1.15fr,1fr] lg:gap-10">
       <section class="relative overflow-hidden rounded-3xl shadow-glow">
         <img
           src="/bg.svg"
@@ -18,27 +18,27 @@
         <div
           class="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/70 to-blue-950/80 backdrop-saturate-[1.2] dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950/85"
         ></div>
-        <div class="relative flex h-full flex-col justify-between p-8 text-white sm:p-10 lg:p-12">
+        <div class="relative flex h-full flex-col justify-between p-7 text-white sm:p-10 lg:p-12">
           <div class="space-y-6">
             <p class="text-sm font-semibold uppercase tracking-[0.45em] text-white/70">AMK PORTAL</p>
-            <h1 class="text-3xl font-semibold leading-snug sm:text-[2.65rem]">
+            <h1 class="text-2xl font-semibold leading-snug sm:text-[2.65rem]">
               PT ANUEGARAH MITRA KALIMANTAN
             </h1>
           </div>
-          <div class="mt-12 flex items-center gap-4 text-sm text-white/80 sm:mt-16">
+          <div class="mt-10 flex items-center gap-4 text-sm text-white/80 sm:mt-16">
             <div class="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur">
-              <p class="text-xs uppercase tracking-[0.4em] text-white/60">SISTEM MANAJAMEN AMK</p>
+              <p class="text-[0.65rem] uppercase tracking-[0.4em] text-white/60 sm:text-xs">SISTEM MANAJAMEN AMK</p>
               <p class="text-sm font-semibold text-white">KEMUDAHAN AKSES DIMANA SAJA DAN KAPAN SAJA</p>
             </div>
           </div>
         </div>
       </section>
-      <section class="rounded-3xl border border-slate-200/60 bg-white/90 p-6 shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 sm:p-8">
-        <div class="mb-8 space-y-2">
-          <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">MASUK AMK PORTAL</h2>
+      <section class="rounded-3xl border border-slate-200/60 bg-white/90 p-5 shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 sm:p-8">
+        <div class="mb-7 space-y-2">
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100 sm:text-2xl">MASUK AMK PORTAL</h2>
           <p class="text-sm text-slate-500 dark:text-slate-400">Silakan masukkan NRP dan kata sandi Anda</p>
         </div>
-        <form class="space-y-5" @submit.prevent="onSubmit">
+        <form class="space-y-4 sm:space-y-5" @submit.prevent="onSubmit">
           <div>
             <label for="nrp" class="block text-sm font-medium text-slate-700 dark:text-slate-200">NRP</label>
             <input
@@ -47,21 +47,49 @@
               type="text"
               autocomplete="username"
               placeholder="Masukkan NRP"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 sm:py-3"
             />
             <p v-if="errors.nrp" class="mt-1 text-xs text-rose-500 dark:text-rose-300">{{ errors.nrp }}</p>
-      
+
           </div>
           <div>
             <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-200">Kata Sandi</label>
-            <input
-              id="password"
-              v-model="form.password"
-              type="password"
-              autocomplete="current-password"
-              placeholder="Masukkan kata sandi"
-              class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100"
-            />
+            <div class="relative mt-2">
+              <input
+                id="password"
+                v-model="form.password"
+                :type="passwordType"
+                autocomplete="current-password"
+                placeholder="Masukkan kata sandi"
+                class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 pr-12 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 sm:py-3"
+              />
+              <button
+                type="button"
+                class="absolute inset-y-0 right-3 inline-flex items-center justify-center text-slate-400 transition hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
+                @click="togglePasswordVisibility"
+                :aria-pressed="showPassword"
+                :aria-label="showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'"
+              >
+                <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 00-4.95-2.121" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l6 6" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4l16 16" />
+                </svg>
+              </button>
+            </div>
             <p v-if="errors.password" class="mt-1 text-xs text-rose-500 dark:text-rose-300">{{ errors.password }}</p>
           </div>
           <Button type="submit" class="w-full justify-center" :loading="auth.state.loading">
@@ -80,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '../components/Button.vue';
 import ThemeToggle from '../components/ThemeToggle.vue';
@@ -99,6 +127,9 @@ const errors = reactive<{ nrp: string | null; password: string | null }>({
   nrp: null,
   password: null
 });
+
+const showPassword = ref(false);
+const passwordType = computed(() => (showPassword.value ? 'text' : 'password'));
 
 const validate = () => {
   errors.nrp = !form.nrp
@@ -123,6 +154,10 @@ const onSubmit = async () => {
   } catch (error) {
     // pesan ditangani di store
   }
+};
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
 };
 
 if (auth.isAuthenticated.value) {
