@@ -7,8 +7,10 @@
       <div class="absolute -left-32 top-24 h-72 w-72 rounded-full bg-primary/20 blur-[140px]"></div>
       <div class="absolute bottom-[-10%] right-[-15%] h-[28rem] w-[28rem] rounded-full bg-blue-300/30 blur-[160px]"></div>
     </div>
-    <div class="relative z-10">
-      <RouterView />
+    <div class="relative z-10 py-10 sm:py-12 lg:py-16">
+      <div class="safe-container">
+        <RouterView />
+      </div>
     </div>
   </div>
   <div
@@ -23,8 +25,10 @@
       <div class="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(circle_at_top,rgba(37,99,235,0.12),transparent_60%)] lg:block"></div>
       <div class="relative z-10 flex min-h-screen flex-col">
         <Navbar @toggle-sidebar="handleToggleSidebar" />
-        <main class="flex-1 overflow-y-auto px-4 pb-10 pt-6 sm:px-6 lg:px-10">
-          <RouterView />
+        <main class="flex-1 overflow-y-auto">
+          <div class="safe-container pb-10 pt-6 sm:pb-12">
+            <RouterView />
+          </div>
         </main>
       </div>
     </div>

@@ -1,13 +1,13 @@
 <template>
-  <div class="relative flex min-h-screen items-center justify-center px-6 py-12">
+  <div class="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-6 sm:py-12">
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
       <div class="absolute left-1/2 top-[-20%] h-72 w-72 -translate-x-1/2 rounded-full bg-primary/20 blur-[140px]"></div>
       <div class="absolute bottom-[-25%] right-[-10%] h-80 w-80 rounded-full bg-blue-200/40 blur-[180px]"></div>
     </div>
-    <div class="absolute top-8 right-8 z-20">
+    <div class="absolute right-4 top-4 z-20 sm:right-8 sm:top-8">
       <ThemeToggle />
     </div>
-    <div class="relative z-10 grid w-full max-w-5xl gap-10 lg:grid-cols-[1.15fr,1fr]">
+    <div class="relative z-10 grid w-full max-w-5xl gap-8 lg:grid-cols-[1.15fr,1fr] lg:gap-10">
       <section class="relative overflow-hidden rounded-3xl shadow-glow">
         <img
           src="/bg.svg"
@@ -18,14 +18,14 @@
         <div
           class="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/70 to-blue-950/80 backdrop-saturate-[1.2] dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950/85"
         ></div>
-        <div class="relative flex h-full flex-col justify-between p-10 text-white sm:p-12">
+        <div class="relative flex h-full flex-col justify-between p-8 text-white sm:p-10 lg:p-12">
           <div class="space-y-6">
             <p class="text-sm font-semibold uppercase tracking-[0.45em] text-white/70">AMK PORTAL</p>
-            <h1 class="text-4xl font-semibold leading-snug sm:text-[2.65rem]">
+            <h1 class="text-3xl font-semibold leading-snug sm:text-[2.65rem]">
               PT ANUEGARAH MITRA KALIMANTAN
             </h1>
           </div>
-          <div class="mt-16 flex items-center gap-4 text-sm text-white/80">
+          <div class="mt-12 flex items-center gap-4 text-sm text-white/80 sm:mt-16">
             <div class="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur">
               <p class="text-xs uppercase tracking-[0.4em] text-white/60">SISTEM MANAJAMEN AMK</p>
               <p class="text-sm font-semibold text-white">KEMUDAHAN AKSES DIMANA SAJA DAN KAPAN SAJA</p>
@@ -33,7 +33,7 @@
           </div>
         </div>
       </section>
-      <section class="rounded-3xl border border-slate-200/60 bg-white/90 p-8 shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80">
+      <section class="rounded-3xl border border-slate-200/60 bg-white/90 p-6 shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 sm:p-8">
         <div class="mb-8 space-y-2">
           <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">MASUK AMK PORTAL</h2>
           <p class="text-sm text-slate-500 dark:text-slate-400">Silakan masukkan NRP dan kata sandi Anda</p>

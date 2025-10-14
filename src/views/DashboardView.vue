@@ -1,17 +1,17 @@
 <template>
   <div class="space-y-8">
-    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary to-indigo-600 p-8 text-white shadow-glow">
+    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary to-indigo-600 p-6 text-white shadow-glow sm:p-8">
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.25),transparent_55%)]"></div>
       <div class="absolute bottom-[-6rem] right-[-2rem] h-48 w-48 rounded-full bg-white/20 blur-3xl"></div>
-      <div class="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div class="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <div class="max-w-2xl">
           <p class="text-sm uppercase tracking-[0.35em] text-white/70">Ringkasan AMK</p>
-          <h1 class="mt-3 text-3xl font-semibold leading-tight">Dashboard SDM modern untuk memantau kinerja tim Anda.</h1>
-          <p class="mt-4 text-sm text-white/75">
+          <h1 class="mt-3 text-2xl font-semibold leading-tight sm:text-3xl lg:text-[2.5rem]">Dashboard SDM modern untuk memantau kinerja tim Anda.</h1>
+          <p class="mt-4 text-sm leading-relaxed text-white/75">
             Pantau jumlah pegawai, progres kelengkapan biodata, dan pegawai yang perlu tindakan cepat dalam kurun 30 hari ke depan.
           </p>
         </div>
-        <div class="flex flex-col gap-4 sm:flex-row">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <Button variant="ghost" class="border border-white/30 bg-white/20 text-white hover:bg-white/30" @click="refreshData">
             Segarkan Data
           </Button>
@@ -75,7 +75,7 @@
     </div>
 
     <div class="grid gap-6 xl:grid-cols-3">
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 xl:col-span-2">
+      <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6 xl:col-span-2">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Performa Program Pengembangan</h2>
@@ -126,7 +126,7 @@
           </div>
         </div>
       </div>
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6">
         <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Komposisi Status Pegawai</h2>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Distribusi status kepegawaian berdasarkan data terbaru.</p>
         <ul class="mt-5 space-y-4">
@@ -146,7 +146,7 @@
 
     <div class="grid gap-6 lg:grid-cols-3">
       <section class="lg:col-span-2">
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Pegawai Akan Habis Kontrak</h2>
@@ -172,7 +172,7 @@
         </div>
       </section>
       <section>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6">
           <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Riwayat Aktivitas</h2>
           <p class="text-sm text-slate-500 dark:text-slate-400">10 aktivitas terbaru dari seluruh pengguna.</p>
           <ul class="mt-4 space-y-4">

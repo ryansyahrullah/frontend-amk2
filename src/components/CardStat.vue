@@ -1,13 +1,13 @@
 <template>
-  <div :class="['relative overflow-hidden rounded-3xl p-6 transition duration-300 hover:-translate-y-1', styles.container]">
+  <div :class="['relative overflow-hidden rounded-3xl p-5 transition duration-300 hover:-translate-y-1 sm:p-6', styles.container]">
     <div v-if="styles.highlight" :class="styles.highlight"></div>
     <div class="relative flex items-start justify-between">
       <div>
         <p class="text-sm font-medium" :class="styles.title">{{ title }}</p>
-        <h3 class="mt-3 text-3xl font-semibold tracking-tight">{{ value }}</h3>
+        <h3 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">{{ value }}</h3>
         <p v-if="description" class="mt-2 text-sm" :class="styles.description">{{ description }}</p>
       </div>
-      <div :class="['flex h-12 w-12 items-center justify-center rounded-2xl', styles.icon]">
+      <div :class="['flex h-10 w-10 items-center justify-center rounded-2xl sm:h-12 sm:w-12', styles.icon]">
         <slot name="icon">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
@@ -15,10 +15,10 @@
         </slot>
       </div>
     </div>
-    <div v-if="$slots.footer" class="relative mt-6">
+    <div v-if="$slots.footer" class="relative mt-5 sm:mt-6">
       <slot name="footer" />
     </div>
-    <div v-if="trendValue" class="relative mt-6 flex items-center gap-2 text-sm">
+    <div v-if="trendValue" class="relative mt-5 flex items-center gap-2 text-sm sm:mt-6">
       <span :class="['inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', styles.trendBadge]">
         <svg
           v-if="trendPositive"

@@ -4,7 +4,7 @@
   </transition>
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-40 flex h-screen w-72 flex-col border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900',
+      'fixed inset-y-0 left-0 z-40 flex h-screen w-full max-w-xs flex-col border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900 sm:w-72',
       mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
     ]"
   >
