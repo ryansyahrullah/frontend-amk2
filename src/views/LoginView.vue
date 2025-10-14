@@ -7,29 +7,23 @@
     <div class="absolute right-4 top-4 z-20 sm:right-8 sm:top-8">
       <ThemeToggle />
     </div>
-    <div class="relative z-10 grid w-full max-w-5xl gap-6 sm:gap-8 lg:grid-cols-[1.15fr,1fr] lg:gap-10">
-      <section class="relative overflow-hidden rounded-3xl shadow-glow">
+    <div class="relative z-10 grid w-full max-w-4xl gap-5 sm:gap-6 lg:grid-cols-[1.1fr,1fr] lg:gap-8">
+      <section class="relative flex min-h-[320px] items-center overflow-hidden rounded-3xl shadow-glow">
         <img
           src="/bg.svg"
           alt="Latar belakang AMK PORTAL"
-          class="absolute inset-0 h-full w-full object-cover"
+          class="absolute inset-0 h-full w-full object-cover object-center"
           loading="lazy"
         />
         <div
           class="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/70 to-blue-950/80 backdrop-saturate-[1.2] dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950/85"
         ></div>
-        <div class="relative flex h-full flex-col justify-between p-7 text-white sm:p-10 lg:p-12">
+        <div class="relative flex h-full w-full flex-col items-center justify-center gap-6 p-6 text-white text-center sm:items-start sm:text-left sm:p-8 lg:p-10">
           <div class="space-y-6">
             <p class="text-sm font-semibold uppercase tracking-[0.45em] text-white/70">AMK PORTAL</p>
             <h1 class="text-2xl font-semibold leading-snug sm:text-[2.65rem]">
               PT ANUEGARAH MITRA KALIMANTAN
             </h1>
-          </div>
-          <div class="mt-10 flex items-center gap-4 text-sm text-white/80 sm:mt-16">
-            <div class="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur">
-              <p class="text-[0.65rem] uppercase tracking-[0.4em] text-white/60 sm:text-xs">SISTEM MANAJAMEN AMK</p>
-              <p class="text-sm font-semibold text-white">KEMUDAHAN AKSES DIMANA SAJA DAN KAPAN SAJA</p>
-            </div>
           </div>
         </div>
       </section>
