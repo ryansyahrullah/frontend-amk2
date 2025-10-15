@@ -1,332 +1,555 @@
 <template>
-  <div class="space-y-8">
-    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary to-indigo-600 p-8 text-white shadow-glow">
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.25),transparent_55%)]"></div>
-      <div class="absolute bottom-[-6rem] right-[-2rem] h-48 w-48 rounded-full bg-white/20 blur-3xl"></div>
-      <div class="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-        <div class="max-w-2xl">
-          <p class="text-sm uppercase tracking-[0.35em] text-white/70">Ringkasan AMK</p>
-          <h1 class="mt-3 text-3xl font-semibold leading-tight">Dashboard SDM modern untuk memantau kinerja tim Anda.</h1>
-          <p class="mt-4 text-sm text-white/75">
-            Pantau jumlah pegawai, progres kelengkapan biodata, dan pegawai yang perlu tindakan cepat dalam kurun 30 hari ke depan.
-          </p>
+  <div class="space-y-12 text-slate-700 transition-colors duration-500 dark:text-slate-200">
+    <section class="grid gap-8 2xl:grid-cols-[1.7fr_1fr]">
+      <div class="aether-shell overflow-hidden p-8">
+        <div class="pointer-events-none absolute inset-0 opacity-80">
+          <div class="absolute -left-32 top-0 h-56 w-56 rounded-full bg-indigo-200/45 blur-[220px] dark:bg-indigo-500/20"></div>
+          <div class="absolute -right-20 bottom-[-35%] h-64 w-64 rounded-full bg-sky-200/45 blur-[240px] dark:bg-purple-500/20"></div>
+          <div class="absolute inset-0 bg-gradient-to-br from-white/80 via-white/40 to-white/10 dark:from-white/10 dark:via-white/5 dark:to-white/0"></div>
         </div>
-        <div class="flex flex-col gap-4 sm:flex-row">
-          <Button variant="ghost" class="border border-white/30 bg-white/20 text-white hover:bg-white/30" @click="refreshData">
-            Segarkan Data
-          </Button>
-          <RouterLink to="/pegawai" class="inline-flex">
-            <Button class="shadow-md shadow-black/10">Kelola Pegawai</Button>
-          </RouterLink>
+        <div class="relative space-y-8">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <span class="aether-chip text-indigo-500">Navigator Peopleverse</span>
+            <span class="text-xs text-slate-400 dark:text-slate-500">Terakhir diperbarui {{ formattedRefresh }}</span>
+          </div>
+          <div class="space-y-4">
+            <h1 class="text-3xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-4xl">
+              Komando Aetheria PT Anugerah Mitra Kalimantan
+            </h1>
+            <p class="text-sm leading-relaxed text-slate-500 dark:text-slate-300">
+              Pantau {{ digest.total.toLocaleString('id-ID') }} kru aktif lintas {{ locationLeaders.length }} lokasi dengan readiness rata-rata {{ digest.readinessAverage }}%, wellbeing {{ digest.wellbeingAverage }}/100, dan pipeline talenta unggulan siap akselerasi.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <Button
+              class="aether-glass-button aether-sheen rounded-full border border-indigo-200/60 bg-white/90 px-6 py-2 text-sm font-semibold text-indigo-600 hover:text-indigo-600 dark:border-indigo-500/20 dark:bg-white/10 dark:text-indigo-200"
+              @click="refreshData"
+            >
+              Segarkan data
+            </Button>
+            <RouterLink to="/pegawai" class="inline-flex">
+              <Button class="aether-glass-button rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-sky-500 px-6 py-2 text-sm font-semibold text-white shadow-[0_32px_90px_-60px_rgba(59,130,246,0.65)] hover:opacity-95">
+                Kelola pegawai
+              </Button>
+            </RouterLink>
+            <RouterLink to="/pelatihan" class="inline-flex">
+              <Button class="aether-glass-button rounded-full border border-white/70 bg-white/85 px-6 py-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 dark:border-white/10 dark:bg-white/10 dark:text-slate-200">
+                Modul pengembangan
+              </Button>
+            </RouterLink>
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <div
+              v-for="item in heroTrajectory"
+              :key="item.id"
+              class="group relative overflow-hidden rounded-[24px] border border-white/65 bg-white/80 p-4 text-sm shadow-[0_32px_90px_-60px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:border-indigo-300/60 hover:text-indigo-600 dark:border-white/10 dark:bg-white/10"
+            >
+              <div class="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
+                <div :class="['absolute inset-0 rounded-[24px]', item.overlay]"></div>
+              </div>
+              <div class="relative space-y-3">
+                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.38em] text-slate-400 dark:text-slate-500">{{ item.label }}</p>
+                <p class="text-2xl font-semibold text-slate-900 transition group-hover:text-indigo-600 dark:text-white dark:group-hover:text-sky-200">{{ item.value }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ item.caption }}</p>
+                <div class="mt-2 h-1.5 rounded-full bg-slate-200/60 dark:bg-white/10">
+                  <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500" :style="{ width: item.meter }"></div>
+                </div>
+                <span class="aether-badge">{{ item.delta }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-[24px] border border-white/65 bg-white/80 p-4 text-xs text-slate-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-400">
+            <p class="font-semibold text-slate-700 dark:text-white">Program unggulan</p>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div
+                v-for="program in programHighlights"
+                :key="program.name"
+                class="rounded-[18px] border border-white/65 bg-white/85 p-3 transition hover:-translate-y-0.5 hover:border-indigo-300/60 dark:border-white/10 dark:bg-white/10"
+              >
+                <p class="text-xs font-semibold text-slate-700 dark:text-white">{{ program.name }}</p>
+                <p class="mt-1 text-[0.68rem] text-slate-400">{{ program.count.toLocaleString('id-ID') }} peserta</p>
+                <div class="mt-2 h-1.5 rounded-full bg-slate-200/60 dark:bg-white/10">
+                  <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-sky-500" :style="{ width: `${program.share}%` }"></div>
+                </div>
+                <p class="mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-slate-400">{{ program.share }}% populasi</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-6">
+        <div class="aether-panel overflow-hidden p-6 text-sm">
+          <div class="pointer-events-none absolute inset-0 opacity-70">
+            <div class="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-indigo-200/40 via-transparent to-transparent dark:from-indigo-500/20"></div>
+          </div>
+          <div class="relative space-y-5">
+            <div class="aether-section-title">
+              <span>Pulse harian</span>
+              <span>Realtime</span>
+            </div>
+            <div class="grid gap-3">
+              <div
+                v-for="signal in missionPulse"
+                :key="signal.id"
+                class="flex items-center justify-between gap-4 rounded-[22px] border border-white/65 bg-white/80 px-4 py-3 text-xs text-slate-500 shadow-inner transition hover:-translate-y-0.5 hover:border-indigo-300/60 hover:text-indigo-600 dark:border-white/10 dark:bg-white/10"
+              >
+                <div class="flex items-center gap-3">
+                  <span class="aether-icon-sm text-base font-semibold text-indigo-500 dark:text-indigo-200">{{ signal.code }}</span>
+                  <div class="space-y-1">
+                    <p class="text-sm font-semibold text-slate-800 dark:text-white">{{ signal.title }}</p>
+                    <p>{{ signal.subtitle }}</p>
+                  </div>
+                </div>
+                <div class="text-right text-[0.7rem] uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">
+                  <p>{{ signal.value }}</p>
+                  <p class="mt-1 text-xs font-semibold text-indigo-500 dark:text-indigo-200">{{ signal.status }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="rounded-[20px] border border-dashed border-white/65 p-4 text-xs leading-relaxed text-slate-500 dark:border-white/10 dark:text-slate-400">
+              Fokuskan coaching pada kru readiness di bawah 60% dan jadwalkan sesi check-in untuk batch onboarding terbaru.
+            </div>
+          </div>
+        </div>
+        <div class="aether-panel p-6 text-sm">
+          <div class="aether-section-title">
+            <span>Jalur cepat</span>
+            <span>Pilih modul</span>
+          </div>
+          <div class="mt-4 space-y-3">
+            <RouterLink
+              v-for="action in quickActions"
+              :key="action.id"
+              :to="action.to"
+              class="group flex items-center gap-3 rounded-[22px] border border-white/65 bg-white/80 px-4 py-3 text-sm transition hover:-translate-y-0.5 hover:border-indigo-300/60 hover:bg-indigo-50 hover:text-indigo-600 dark:border-white/10 dark:bg-white/10"
+            >
+              <span class="aether-icon-sm border border-white/65 bg-white/85 text-indigo-500 transition group-hover:border-transparent group-hover:bg-indigo-500/15 group-hover:text-indigo-600 dark:border-white/10 dark:bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" :d="action.icon" />
+                </svg>
+              </span>
+              <div class="flex-1">
+                <p class="font-semibold text-slate-700 transition group-hover:text-indigo-500 dark:text-slate-100">{{ action.label }}</p>
+                <p class="text-xs text-slate-500 transition group-hover:text-indigo-400 dark:text-slate-400">{{ action.description }}</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300 transition group-hover:text-indigo-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7" />
+              </svg>
+            </RouterLink>
+          </div>
         </div>
       </div>
     </section>
 
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <section class="grid gap-6 xl:grid-cols-4">
       <CardStat
-        title="Jumlah Pegawai"
-        :value="statistik?.jumlahPegawai ? statistik.jumlahPegawai.toLocaleString('id-ID') : '...'"
-        description="Pegawai aktif dalam sistem"
+        title="Total pegawai"
+        :value="digest.total.toLocaleString('id-ID')"
+        description="Termasuk kru site dan kantor pusat."
         variant="primary"
-        trend-label="dibanding bulan lalu"
-        trend-value="+12 pegawai"
-        :trend-positive="true"
-      >
-        <template #icon>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6c1.5 0 2.75-1.25 2.75-2.75S13.5.5 12 .5 9.25 1.75 9.25 3.25 10.5 6 12 6zm0 0c3.25 0 5.75 2.5 5.75 5.75V18h-11.5v-6.25C6.25 8.5 8.75 6 12 6z" />
-          </svg>
-        </template>
-      </CardStat>
+        :trend-value="`+${digest.onboarding} onboarding`"
+        trend-label="gelombang onboarding"
+      />
       <CardStat
-        title="% Biodata Lengkap"
-        :value="statistik ? `${statistik.persentaseLengkap}%` : '...'"
-        description="Progress kelengkapan dokumen pegawai"
+        title="Readiness rata-rata"
+        :value="`${digest.readinessAverage}%`"
+        description="Index kesiapan promosi seluruh pegawai."
+        variant="emerald"
+        :trend-value="`${digest.contractWindow > 18 ? '+' : '-'}${Math.abs(digest.contractWindow - 18)} vs target`"
+        :trend-positive="digest.contractWindow <= 18"
+      />
+      <CardStat
+        title="Kinerja rata-rata"
+        :value="`${digest.performanceAverage}/100`"
+        description="Rerata skor performa triwulan berjalan."
         variant="indigo"
-        trend-label="target 85% terpenuhi"
-        trend-value="+6%"
-      >
-        <template #footer>
-          <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/30">
-            <div class="h-full rounded-full bg-white" :style="{ width: biodataProgress }"></div>
-          </div>
-        </template>
-        <template #icon>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-          </svg>
-        </template>
-      </CardStat>
+        :trend-value="digest.performanceAverage >= 85 ? '+3,4%' : '+1,2%'"
+      />
       <CardStat
-        title="Pegawai Habis Kontrak"
-        :value="statistik ? statistik.habisKontrak.length : '...'"
-        description="Berakhir dalam 30 hari ke depan"
+        title="Wellbeing kru"
+        :value="`${digest.wellbeingAverage}/100`"
+        description="Pulse energi kru lintas lokasi."
         variant="rose"
-        trend-label="butuh tindak lanjut"
-        trend-value="3 pending"
-        :trend-positive="false"
-      >
-        <template #icon>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l3 3" />
-          </svg>
-        </template>
-      </CardStat>
-    </div>
+        :trend-value="digest.wellbeingAverage >= 78 ? '+prima' : '+perlu boost'"
+        :trend-positive="digest.wellbeingAverage >= 70"
+      />
+    </section>
 
-    <div class="grid gap-6 xl:grid-cols-3">
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 xl:col-span-2">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Performa Program Pengembangan</h2>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Perbandingan aktivitas pelatihan dan onboarding per bulan.</p>
-          </div>
-          <div class="flex gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
-            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-primary">Pelatihan</span>
-            <span class="inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-accent">Onboarding</span>
-          </div>
+    <section class="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+      <div class="aether-panel p-6">
+        <div class="aether-section-title">
+          <span>Distribusi lokasi</span>
+          <span>Aktif {{ digest.active.toLocaleString('id-ID') }}</span>
         </div>
-        <div class="mt-6 grid gap-6 lg:grid-cols-2">
-          <div>
-            <div class="h-56 rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900/60">
-              <div class="flex h-full items-end gap-4">
-                <div
-                  v-for="item in pelatihanSeries"
-                  :key="item.label"
-                  class="flex flex-1 flex-col items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400"
-                >
-                  <div class="flex h-full w-full items-end gap-2">
-                    <div class="w-1/2 rounded-full bg-primary/60" :style="{ height: barHeight(item.pelatihan) }"></div>
-                    <div class="w-1/2 rounded-full bg-accent/70" :style="{ height: barHeight(item.onboarding) }"></div>
-                  </div>
-                  <span>{{ item.label }}</span>
-                </div>
+        <div class="mt-5 space-y-4">
+          <div
+            v-for="location in locationLeaders"
+            :key="location.location"
+            class="rounded-[22px] border border-white/65 bg-white/80 p-4 text-sm transition hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/10"
+          >
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="font-semibold text-slate-800 dark:text-white">{{ location.location }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ location.total }} pegawai • {{ location.activePercent }}% aktif</p>
               </div>
+              <span class="aether-pill text-[0.68rem] font-semibold text-indigo-600 dark:text-indigo-200">Wellbeing {{ location.wellbeing }}/100</span>
             </div>
-          </div>
-          <div>
-            <div class="h-56 rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900/60">
-              <svg viewBox="0 0 100 100" class="h-full w-full">
-                <defs>
-                  <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="rgba(37,99,235,0.45)" />
-                    <stop offset="100%" stop-color="rgba(37,99,235,0.05)" />
-                  </linearGradient>
-                </defs>
-                <polygon :points="areaPoints" fill="url(#trendGradient)" />
-                <polyline :points="linePoints" fill="none" stroke="rgba(37,99,235,0.85)" stroke-width="2.5" stroke-linecap="round" />
-                <g v-for="(value, index) in salesTrend" :key="`point-${index}`">
-                  <circle :cx="pointX(index)" :cy="pointY(value)" r="2" fill="#2563eb" />
-                </g>
-              </svg>
-              <div class="mt-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                <span v-for="label in monthlyLabels" :key="`label-${label}`">{{ label }}</span>
-              </div>
+            <div class="mt-3 h-1.5 rounded-full bg-slate-200/60 dark:bg-white/10">
+              <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500" :style="{ width: `${location.activePercent}%` }"></div>
             </div>
           </div>
         </div>
       </div>
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Komposisi Status Pegawai</h2>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Distribusi status kepegawaian berdasarkan data terbaru.</p>
-        <ul class="mt-5 space-y-4">
-          <li v-for="status in statusSummary" :key="status.label" class="space-y-2">
-            <div class="flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-200">
-              <span>{{ status.label }}</span>
-              <span>{{ status.value }} pegawai</span>
-            </div>
-            <div class="h-2 w-full rounded-full bg-slate-200 dark:bg-slate-800">
-              <div class="h-2 rounded-full" :class="status.barClass" :style="{ width: `${status.percent}%` }"></div>
-            </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400">{{ status.percent }}% dari total pegawai</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="grid gap-6 lg:grid-cols-3">
-      <section class="lg:col-span-2">
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="aether-panel p-6">
+        <div class="aether-section-title">
+          <span>Talenta unggulan</span>
+          <span>{{ topPotential.length }} kandidat</span>
+        </div>
+        <div class="mt-5 space-y-3">
+          <div
+            v-for="talent in topPotential"
+            :key="talent.id"
+            class="flex items-center justify-between gap-3 rounded-[20px] border border-white/65 bg-white/80 px-4 py-3 text-sm transition hover:-translate-y-0.5 hover:border-indigo-300/60 dark:border-white/10 dark:bg-white/10"
+          >
             <div>
-              <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Pegawai Akan Habis Kontrak</h2>
-              <p class="text-sm text-slate-500 dark:text-slate-400">Pantau jadwal kontrak yang segera berakhir.</p>
+              <p class="font-semibold text-slate-800 dark:text-white">{{ talent.name }}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">{{ talent.division }} • {{ talent.location }}</p>
             </div>
-            <RouterLink to="/pegawai?filter=habis-kontrak" class="text-sm font-semibold text-primary hover:text-primary-dark">
-              Lihat Semua
-            </RouterLink>
-          </div>
-          <div class="mt-4">
-            <AppTable
-              :columns="kontrakColumns"
-              :items="statistik?.habisKontrak ?? []"
-              :loading="loadingStatistik"
-              row-key="id"
-              empty-message="Tidak ada pegawai yang akan habis kontrak."
-            >
-              <template #cell-akhir_kontrak="{ item }">
-                <span>{{ formatDate(item.akhir_kontrak) }}</span>
-              </template>
-            </AppTable>
+            <div class="text-right text-xs text-slate-500 dark:text-slate-400">
+              <p>Perf {{ talent.performanceScore }}</p>
+              <p>Pot {{ talent.potentialScore }}</p>
+            </div>
           </div>
         </div>
-      </section>
-      <section>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Riwayat Aktivitas</h2>
-          <p class="text-sm text-slate-500 dark:text-slate-400">10 aktivitas terbaru dari seluruh pengguna.</p>
-          <ul class="mt-4 space-y-4">
-            <li v-if="loadingAktivitas" v-for="n in 5" :key="`skeleton-${n}`" class="animate-pulse space-y-3">
-              <div class="h-3 w-2/3 rounded bg-slate-200 dark:bg-slate-800"></div>
-              <div class="h-2 w-1/3 rounded bg-slate-200 dark:bg-slate-800"></div>
-            </li>
-            <li
-              v-else-if="!aktivitas.length"
-              class="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-slate-300 p-6 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400"
-            >
-              <span class="text-3xl">📭</span>
-              Belum ada aktivitas terbaru.
-            </li>
-            <li v-else v-for="item in aktivitas" :key="item.id" class="rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">{{ item.judul }}</p>
-              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ item.deskripsi }}</p>
-              <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">{{ formatDateTime(item.waktu) }}</p>
-            </li>
-          </ul>
+        <div class="mt-6 rounded-[20px] border border-dashed border-white/65 p-4 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
+          Jadwalkan forum akselerasi untuk talenta dengan skor potensi ≥ 92 guna mengisi kebutuhan supervisor baru.
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <section class="grid gap-6 xl:grid-cols-3">
+      <div class="aether-panel p-6">
+        <div class="aether-section-title">
+          <span>Alert risiko</span>
+          <span>{{ riskAlerts.length }} pegawai</span>
+        </div>
+        <div class="mt-4 space-y-3">
+          <div
+            v-for="alert in riskAlerts"
+            :key="alert.id"
+            class="flex items-center justify-between gap-3 rounded-[22px] border border-white/65 bg-white/80 px-4 py-3 text-sm transition hover:-translate-y-0.5 hover:border-rose-300/60 dark:border-white/10 dark:bg-white/10"
+          >
+            <div>
+              <p class="font-semibold text-slate-800 dark:text-white">{{ alert.name }}</p>
+              <p class="text-xs text-rose-500 dark:text-rose-300">{{ alert.division }} • {{ alert.location }}</p>
+            </div>
+            <div class="text-right text-xs text-slate-500 dark:text-slate-400">
+              <p>Risk: {{ alert.riskLevel }}</p>
+              <p>Readiness {{ alert.readinessIndex }}%</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 rounded-[20px] border border-dashed border-rose-200/70 p-4 text-xs text-rose-500 dark:border-rose-500/30 dark:text-rose-300">
+          Prioritaskan coaching dan sesi wellbeing untuk kru dengan readiness di bawah 55% agar kontrak tetap stabil.
+        </div>
+      </div>
+      <div class="aether-panel p-6">
+        <div class="aether-section-title">
+          <span>Stream pengembangan</span>
+          <span>Jam rata-rata</span>
+        </div>
+        <div class="mt-4 space-y-3">
+          <div
+            v-for="stream in learningStreams"
+            :key="stream.division"
+            class="flex items-center justify-between gap-3 rounded-[22px] border border-white/65 bg-white/80 px-4 py-3 text-sm transition hover:-translate-y-0.5 hover:border-emerald-300/60 dark:border-white/10 dark:bg-white/10"
+          >
+            <div>
+              <p class="font-semibold text-slate-800 dark:text-white">{{ stream.division }}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">{{ stream.participants }} peserta</p>
+            </div>
+            <span class="aether-pill text-xs font-semibold text-emerald-600 dark:text-emerald-200">{{ stream.avgHours }} jam</span>
+          </div>
+        </div>
+        <div class="mt-6 rounded-[20px] border border-white/65 bg-white/80 p-4 text-xs leading-relaxed text-slate-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-400">
+          Program learning sprint fokus pada divisi dengan rata-rata jam pelatihan di bawah 24 jam untuk mengejar standar tahun ini.
+        </div>
+      </div>
+      <div class="aether-panel p-6">
+        <div class="aether-section-title">
+          <span>Momentum tim</span>
+          <span>Pembaruan internal</span>
+        </div>
+        <div class="mt-5 space-y-4">
+          <div
+            v-for="moment in engagementMoments"
+            :key="moment.id"
+            class="rounded-[22px] border border-white/65 bg-white/80 p-4 text-sm transition hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/10"
+          >
+            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span>{{ moment.date }}</span>
+              <span class="aether-pill text-[0.6rem] tracking-[0.3em] text-slate-400 dark:text-slate-500">{{ moment.type }}</span>
+            </div>
+            <p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">{{ moment.title }}</p>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ moment.summary }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import Button from '../components/Button.vue';
 import CardStat from '../components/CardStat.vue';
-import AppTable from '../components/AppTable.vue';
-import http from '../api/http';
-import type { Aktivitas, StatistikResponse } from '../types';
+import { employeeAtlas } from '../data/employeeAtlas';
 
-const statistik = ref<StatistikResponse | null>(null);
-const aktivitas = ref<Aktivitas[]>([]);
-const loadingStatistik = ref(false);
-const loadingAktivitas = ref(false);
+const atlasMatrix = computed(() => {
+  const locationMap = new Map<string, { total: number; active: number; wellbeing: number }>();
+  const programMap = new Map<string, number>();
+  const divisionTraining = new Map<string, { hours: number; participants: number }>();
+  const topPotential: typeof employeeAtlas[number][] = [];
+  const riskAlerts: typeof employeeAtlas[number][] = [];
 
-const kontrakColumns = [
-  { key: 'nrp', label: 'NRP' },
-  { key: 'nama_lengkap', label: 'Nama' },
-  { key: 'jabatan', label: 'Jabatan' },
-  { key: 'akhir_kontrak', label: 'Akhir Kontrak' }
-];
+  let total = 0;
+  let active = 0;
+  let onboarding = 0;
+  let rotation = 0;
+  let contractWindow = 0;
+  let readinessTotal = 0;
+  let performanceTotal = 0;
+  let wellbeingTotal = 0;
+  let engagementTotal = 0;
+  let leadershipTotal = 0;
 
-const biodataProgress = computed(() => {
-  if (!statistik.value) return '0%';
-  return `${Math.min(statistik.value.persentaseLengkap, 100)}%`;
-});
+  for (const entry of employeeAtlas) {
+    total += 1;
+    if (entry.status === 'Aktif') active += 1;
+    if (entry.status === 'Onboarding') onboarding += 1;
+    if (entry.status === 'Rotasi' || entry.status === 'Mutasi') rotation += 1;
+    if (entry.readinessIndex <= 55) contractWindow += 1;
 
-const pelatihanSeries = ref([
-  { label: 'Jan', pelatihan: 18, onboarding: 11 },
-  { label: 'Feb', pelatihan: 22, onboarding: 14 },
-  { label: 'Mar', pelatihan: 27, onboarding: 19 },
-  { label: 'Apr', pelatihan: 24, onboarding: 16 },
-  { label: 'Mei', pelatihan: 28, onboarding: 21 },
-  { label: 'Jun', pelatihan: 31, onboarding: 24 }
-]);
+    readinessTotal += entry.readinessIndex;
+    performanceTotal += entry.performanceScore;
+    wellbeingTotal += entry.wellbeingScore;
+    engagementTotal += entry.engagementScore;
+    leadershipTotal += entry.leadershipReadiness;
 
-const maxPelatihanValue = computed(() =>
-  pelatihanSeries.value.reduce((acc, item) => Math.max(acc, item.pelatihan, item.onboarding), 1)
-);
+    const loc = locationMap.get(entry.location) ?? { total: 0, active: 0, wellbeing: 0 };
+    loc.total += 1;
+    if (entry.status === 'Aktif') loc.active += 1;
+    loc.wellbeing += entry.wellbeingScore;
+    locationMap.set(entry.location, loc);
 
-const barHeight = (value: number) => `${Math.round((value / maxPelatihanValue.value) * 100)}%`;
+    const programCount = programMap.get(entry.flagshipProgram) ?? 0;
+    programMap.set(entry.flagshipProgram, programCount + 1);
 
-const salesTrend = ref([32, 45, 39, 58, 63, 71, 66]);
-const monthlyLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul'];
+    const division = entry.division;
+    const training = divisionTraining.get(division) ?? { hours: 0, participants: 0 };
+    training.hours += entry.trainingHours;
+    training.participants += 1;
+    divisionTraining.set(division, training);
 
-const maxSalesValue = computed(() => salesTrend.value.reduce((acc, value) => Math.max(acc, value), 1));
-
-const pointX = (index: number) => ((index / (salesTrend.value.length - 1)) * 100).toFixed(2);
-const pointY = (value: number) => (100 - (value / maxSalesValue.value) * 100).toFixed(2);
-
-const linePoints = computed(() =>
-  salesTrend.value
-    .map((value, index) => `${pointX(index)},${pointY(value)}`)
-    .join(' ')
-);
-
-const areaPoints = computed(() => `${linePoints.value} 100,100 0,100`);
-
-const statusSummary = computed(() => {
-  const total = statistik.value?.jumlahPegawai ?? 0;
-  const kontrak = statistik.value?.habisKontrak.length ?? 0;
-  const permanen = Math.max(total - kontrak, 0);
-  const kontrakPercent = total ? Math.round((kontrak / total) * 100) : 0;
-  const permanenPercent = Math.max(100 - kontrakPercent, 0);
-
-  return [
-    {
-      label: 'Status Kontrak',
-      value: kontrak,
-      percent: kontrakPercent,
-      barClass: 'bg-amber-400'
-    },
-    {
-      label: 'Status Permanen',
-      value: permanen,
-      percent: permanenPercent,
-      barClass: 'bg-emerald-400'
+    if (entry.potentialScore >= 85 && entry.readinessIndex >= 60) {
+      topPotential.push(entry);
     }
-  ];
+    if (entry.riskLevel === 'Tinggi' || entry.wellbeingScore <= 58) {
+      riskAlerts.push(entry);
+    }
+  }
+
+  const summary = {
+    total,
+    active,
+    onboarding,
+    rotation,
+    contractWindow,
+    readinessAverage: Math.round(readinessTotal / total),
+    performanceAverage: Math.round(performanceTotal / total),
+    wellbeingAverage: Math.round(wellbeingTotal / total),
+    engagementAverage: Math.round(engagementTotal / total),
+    leadershipAverage: Math.round(leadershipTotal / total),
+    activePercent: total ? Math.round((active / total) * 100) : 0
+  };
+
+  const locationLeaders = Array.from(locationMap.entries())
+    .map(([location, data]) => ({
+      location,
+      total: data.total,
+      activePercent: data.total ? Math.round((data.active / data.total) * 100) : 0,
+      wellbeing: data.total ? Math.round(data.wellbeing / data.total) : 0
+    }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5);
+
+  const programEntries = Array.from(programMap.entries()).sort((a, b) => b[1] - a[1]);
+  const programHighlights = programEntries.slice(0, 4).map(([name, count]) => ({
+    name,
+    count,
+    share: total ? Math.round((count / total) * 100) : 0
+  }));
+  const topProgram = programEntries[0]?.[0] ?? 'Accelerate';
+
+  const topPotentialSorted = topPotential
+    .sort((a, b) => b.potentialScore - a.potentialScore || b.performanceScore - a.performanceScore)
+    .slice(0, 5);
+
+  const riskSignals = riskAlerts
+    .sort((a, b) => a.wellbeingScore - b.wellbeingScore || a.readinessIndex - b.readinessIndex)
+    .slice(0, 5);
+
+  const trainingStreams = Array.from(divisionTraining.entries())
+    .map(([division, data]) => ({
+      division,
+      avgHours: Math.round((data.hours / data.participants) * 10) / 10,
+      participants: data.participants
+    }))
+    .sort((a, b) => b.avgHours - a.avgHours)
+    .slice(0, 5);
+
+  return {
+    summary: { ...summary, topProgram },
+    locationLeaders,
+    topPotential: topPotentialSorted,
+    riskSignals,
+    trainingStreams,
+    programHighlights
+  };
 });
 
-const formatDate = (value: string | null) => {
-  if (!value) return '-';
-  const date = new Date(value);
-  return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-};
+const digest = computed(() => atlasMatrix.value.summary);
+const locationLeaders = computed(() => atlasMatrix.value.locationLeaders);
+const topPotential = computed(() => atlasMatrix.value.topPotential);
+const riskAlerts = computed(() => atlasMatrix.value.riskSignals);
+const learningStreams = computed(() => atlasMatrix.value.trainingStreams);
+const programHighlights = computed(() => atlasMatrix.value.programHighlights);
 
-const formatDateTime = (value: string) => {
-  const date = new Date(value);
-  return date.toLocaleString('id-ID', {
+const lastRefresh = ref(new Date());
+
+const formattedRefresh = computed(() =>
+  lastRefresh.value.toLocaleDateString('id-ID', {
     day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-};
-
-const fetchStatistik = async () => {
-  loadingStatistik.value = true;
-  try {
-    const { data } = await http.get<StatistikResponse>('/api/pegawai/statistik');
-    statistik.value = data;
-  } catch (error) {
-    console.error('Gagal memuat statistik pegawai', error);
-  } finally {
-    loadingStatistik.value = false;
-  }
-};
-
-const fetchAktivitas = async () => {
-  loadingAktivitas.value = true;
-  try {
-    const { data } = await http.get<Aktivitas[]>('/api/aktivitas', { params: { limit: 10 } });
-    aktivitas.value = data;
-  } catch (error) {
-    console.error('Gagal memuat aktivitas', error);
-  } finally {
-    loadingAktivitas.value = false;
-  }
-};
+    month: 'long',
+    year: 'numeric'
+  })
+);
 
 const refreshData = () => {
-  fetchStatistik();
-  fetchAktivitas();
+  lastRefresh.value = new Date();
 };
 
-onMounted(() => {
-  fetchStatistik();
-  fetchAktivitas();
-});
+const heroTrajectory = computed(() => [
+  {
+    id: 'readiness',
+    label: 'Readiness index',
+    value: `${digest.value.readinessAverage}%`,
+    caption: 'Crew siap akselerasi lintas fungsi.',
+    meter: `${Math.min(100, digest.value.readinessAverage)}%`,
+    delta: digest.value.contractWindow <= 18 ? '+stabil' : '+perlu atensi',
+    overlay: 'bg-gradient-to-br from-indigo-200/35 via-transparent to-emerald-200/25 dark:from-indigo-500/18 dark:to-emerald-500/15'
+  },
+  {
+    id: 'performance',
+    label: 'Momentum performa',
+    value: `${digest.value.performanceAverage}/100`,
+    caption: 'Nilai triwulan berjalan seluruh site.',
+    meter: `${Math.min(100, digest.value.performanceAverage)}%`,
+    delta: digest.value.performanceAverage >= 85 ? '+prima' : '+monitor',
+    overlay: 'bg-gradient-to-br from-sky-200/30 via-transparent to-indigo-200/25 dark:from-sky-500/18 dark:to-indigo-500/15'
+  },
+  {
+    id: 'wellbeing',
+    label: 'Pulse wellbeing',
+    value: `${digest.value.wellbeingAverage}/100`,
+    caption: 'Energi kru site & kantor pusat.',
+    meter: `${Math.min(100, digest.value.wellbeingAverage)}%`,
+    delta: digest.value.wellbeingAverage >= 78 ? '+energik' : '+perlu boost',
+    overlay: 'bg-gradient-to-br from-emerald-200/30 via-transparent to-sky-200/25 dark:from-emerald-500/18 dark:to-sky-500/15'
+  }
+]);
+
+const missionPulse = computed(() => [
+  {
+    id: 'presence',
+    code: 'PR',
+    title: 'Kehadiran kru',
+    subtitle: `${digest.value.active.toLocaleString('id-ID')} aktif dari ${digest.value.total.toLocaleString('id-ID')} kru`,
+    value: `${digest.value.activePercent}%`,
+    status: digest.value.activePercent >= 92 ? 'stabil' : 'pantau'
+  },
+  {
+    id: 'onboard',
+    code: 'OB',
+    title: 'Batch onboarding',
+    subtitle: `${digest.value.topProgram} dominan`,
+    value: `${digest.value.onboarding} kru`,
+    status: digest.value.onboarding >= 80 ? 'ramai' : 'lancar'
+  },
+  {
+    id: 'risk',
+    code: 'RK',
+    title: 'Kontrak waspada',
+    subtitle: 'Readiness ≤ 55%',
+    value: `${digest.value.contractWindow} kru`,
+    status: digest.value.contractWindow > 18 ? 'aksi' : 'aman'
+  },
+  {
+    id: 'engage',
+    code: 'EG',
+    title: 'Keterlibatan',
+    subtitle: 'Rerata engagement crew',
+    value: `${digest.value.engagementAverage}/100`,
+    status: digest.value.engagementAverage >= 78 ? 'tinggi' : 'boost'
+  }
+]);
+
+const quickActions = [
+  {
+    id: 'talent',
+    label: 'Kelola pipeline talenta',
+    description: 'Review readiness dan jadwal akselerasi',
+    to: '/talenta',
+    icon: 'M11.25 6.75h1.5m-1.5 4.5h1.5m-1.5 4.5h1.5M5.625 5.625l.184 12.003a1.125 1.125 0 0 0 1.12 1.122h10.142a1.125 1.125 0 0 0 1.12-1.122l.184-12.003A1.125 1.125 0 0 0 17.251 4.5H6.749a1.125 1.125 0 0 0-1.124 1.125Z'
+  },
+  {
+    id: 'roster',
+    label: 'Atur roster site',
+    description: 'Optimalkan rotasi crew lintas lokasi',
+    to: '/roster',
+    icon: 'M4.5 6h15M4.5 12h15m-15 6h15'
+  },
+  {
+    id: 'coaching',
+    label: 'Coaching readiness',
+    description: 'Rancang sesi untuk kru risiko tinggi',
+    to: '/coaching',
+    icon: 'M12 6.75v10.5m5.25-5.25H6.75'
+  }
+];
+
+const engagementMoments = computed(() => [
+  {
+    id: 'townhall',
+    date: '5 Juni 2024',
+    type: 'Townhall',
+    title: 'Townhall Kalimantan Timur',
+    summary: 'Menyelaraskan roadmap keselamatan dan target keterlibatan menuju skor 82/100.'
+  },
+  {
+    id: 'coaching',
+    date: '8 Juni 2024',
+    type: 'Coaching',
+    title: 'Coaching supervisor site',
+    summary: 'Batch 2 fokus pada kepemimpinan shift dengan readiness rata-rata 64%.'
+  },
+  {
+    id: 'learning',
+    date: '12 Juni 2024',
+    type: 'Learning',
+    title: 'Peluncuran modul Elevate',
+    summary: `Target keterlibatan ${digest.value.engagementAverage + 4}/100 melalui sesi blended learning.`
+  }
+]);
 </script>

@@ -1,252 +1,234 @@
 <template>
   <transition name="fade">
-    <div v-if="mobileOpen" class="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden" @click="$emit('close-mobile')"></div>
+    <div v-if="mobileOpen" class="fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-sm lg:hidden" @click="$emit('close-mobile')"></div>
   </transition>
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-40 flex h-screen w-72 flex-col border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900',
-      mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      'fixed inset-y-0 left-0 z-40 flex h-screen w-full max-w-[22rem] flex-col space-y-6 border-r border-white/50 bg-white/70 px-5 py-6 backdrop-blur-[32px] transition-all duration-300 ease-out dark:border-white/10 dark:bg-white/5',
+      mobileOpen ? 'translate-x-0 shadow-[0_70px_160px_-70px_rgba(79,70,229,0.65)]' : '-translate-x-full lg:translate-x-0'
     ]"
   >
-    <div class="flex h-20 items-center px-6">
-      <img src="/logo.svg" alt="Logo AMK PORTAL" class="h-12 w-auto object-contain" />
-      <span class="ml-4 text-lg font-semibold uppercase tracking-wide text-slate-800 dark:text-slate-100">AMK PORTAL</span>
-    </div>
-    <nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-6">
-      <div v-for="item in menuItems" :key="item.id" class="space-y-1">
-        <RouterLink
-          v-if="!item.children"
-          :to="item.to"
-          class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition"
-          :class="[
-            isRouteActive(item.to, item.exact)
-              ? 'bg-primary text-white shadow-sm'
-              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-          ]"
-        >
-          <span
-            class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary group-[.bg-primary]:bg-white group-[.bg-primary]:text-primary"
-          >
-            <svg v-if="item.icon === 'dashboard'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h9M3.75 18.75h9" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 14.25h3.75M16.5 18.75h3.75" />
-            </svg>
-            <svg v-else-if="item.icon === 'pegawai'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-            </svg>
-            <svg v-else-if="item.icon === 'list'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15M4.5 12h15M4.5 17.25h15" />
-            </svg>
-            <svg v-else-if="item.icon === 'leave'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.5H8.25A3.75 3.75 0 0 0 4.5 11.25v0A3.75 3.75 0 0 0 8.25 15H19.5" />
-            </svg>
-            <svg v-else-if="item.icon === 'health'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75V9" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m13.5 5.25-.75-1.5-.75 1.5" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-2.25" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 18.75.75 1.5.75-1.5" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h2.25" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 10.5-1.5.75 1.5.75" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M18 12h-2.25" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 13.5 1.5-.75-1.5-.75" />
-              <circle cx="12" cy="12" r="3.75" />
-            </svg>
-            <svg v-else-if="item.icon === 'contract'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75h-9A2.25 2.25 0 0 0 5.25 6v12A2.25 2.25 0 0 0 7.5 20.25h9A2.25 2.25 0 0 0 18.75 18V6A2.25 2.25 0 0 0 16.5 3.75Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25h6M9 12h6M9 15.75h3" />
-            </svg>
-            <svg v-else-if="item.icon === 'profile'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-            </svg>
-            <svg v-else-if="item.icon === 'salary'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5.25h18v13.5H3z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 9h9m-9 3h9m-9 3h5.25" />
-            </svg>
-            <svg v-else-if="item.icon === 'finance'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 19.5h16.5M4.5 8.25h15L12 4.5z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 11.25v5.25m4.5-5.25v5.25m4.5-5.25v5.25" />
-            </svg>
-            <svg v-else-if="item.icon === 'site'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 6.75h18M3 12h18M3 17.25h9" />
-              <circle cx="17" cy="17" r="2.25" />
-            </svg>
-          </span>
-          <span>{{ item.label }}</span>
-        </RouterLink>
-        <div v-else>
-          <button
-            type="button"
-            class="group flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition"
-            :class="[
-              isParentActive(item)
-                ? 'bg-primary text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-            ]"
-            @click="handleParentClick(item)"
-          >
-            <span class="flex flex-1 items-center gap-3">
-              <span
-                class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary group-[.bg-primary]:bg-white group-[.bg-primary]:text-primary"
+    <div class="flex h-full flex-col gap-6 overflow-hidden">
+      <div class="flex-1 overflow-hidden">
+        <div class="space-y-6 overflow-y-auto pb-28 pr-2 aether-scrollbar">
+          <div class="aether-shell overflow-hidden p-6 text-sm">
+            <div class="pointer-events-none absolute inset-0 opacity-90">
+              <div class="absolute inset-0 celestial-weave"></div>
+              <div class="aether-fade absolute -right-24 top-16 h-40 w-40 rounded-full bg-indigo-200/45 blur-[180px] dark:bg-indigo-500/20"></div>
+              <div class="aether-float absolute -left-28 bottom-[-20%] h-48 w-48 rounded-full bg-sky-200/40 blur-[220px] dark:bg-sky-500/20"></div>
+            </div>
+            <div class="relative space-y-6">
+              <div class="flex items-center justify-between gap-2">
+                <span class="aether-chip text-indigo-500">Aetheria Workforce</span>
+                <span class="aether-pill text-[0.6rem] uppercase tracking-[0.32em] text-slate-400 dark:text-slate-500">{{ roleLabel }}</span>
+              </div>
+              <div class="space-y-3 text-slate-600 dark:text-slate-200">
+                <h1 class="text-2xl font-semibold leading-tight text-slate-900 dark:text-white">PT Anugerah Mitra Kalimantan</h1>
+                <p class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                  Dasbor HR orbit baru dengan panel dinamis, animasi lembut, dan insight lintas lokasi untuk awak AMK.
+                </p>
+              </div>
+              <div class="grid grid-cols-2 gap-3 text-xs text-slate-500 dark:text-slate-400">
+                <div class="aether-card rounded-[22px] border border-white/70 bg-white/75 p-3 dark:border-white/10 dark:bg-white/10">
+                  <p class="text-[0.58rem] font-semibold uppercase tracking-[0.35em]">Pegawai</p>
+                  <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.total }}</p>
+                  <p class="mt-1 text-[0.68rem] text-slate-400">{{ atlasSummary.active }} aktif</p>
+                </div>
+                <div class="aether-card rounded-[22px] border border-white/70 bg-white/75 p-3 dark:border-white/10 dark:bg-white/10">
+                  <p class="text-[0.58rem] font-semibold uppercase tracking-[0.35em]">Lokasi</p>
+                  <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.locations }}</p>
+                  <p class="mt-1 text-[0.68rem] text-slate-400">Sebaran Kalimantan</p>
+                </div>
+                <div class="aether-card rounded-[22px] border border-white/70 bg-white/75 p-3 dark:border-white/10 dark:bg-white/10">
+                  <p class="text-[0.58rem] font-semibold uppercase tracking-[0.35em]">Onboarding</p>
+                  <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.onboarding }}</p>
+                  <p class="mt-1 text-[0.68rem] text-slate-400">Program {{ atlasSummary.topProgram }}</p>
+                </div>
+                <div class="aether-card rounded-[22px] border border-white/70 bg-white/75 p-3 dark:border-white/10 dark:bg-white/10">
+                  <p class="text-[0.58rem] font-semibold uppercase tracking-[0.35em]">Potensial</p>
+                  <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.highPotential }}</p>
+                  <p class="mt-1 text-[0.68rem] text-slate-400">Siap akselerasi</p>
+                </div>
+              </div>
+              <div class="rounded-[22px] border border-white/70 bg-white/80 p-4 text-xs text-slate-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-400">
+                <div class="flex items-center gap-3">
+                  <span class="aether-icon-sm text-indigo-500 dark:text-indigo-200">{{ atlasSummary.readinessAverage }}%</span>
+                  <div>
+                    <p class="font-semibold text-slate-700 dark:text-white">Readiness index</p>
+                    <p>Rerata kesiapan promosi triwulan ini.</p>
+                  </div>
+                </div>
+                <div class="mt-3 h-1.5 rounded-full bg-slate-200/60 dark:bg-white/10">
+                  <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500" :style="{ width: readinessProgress }"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="aether-panel space-y-5 p-5 text-xs text-slate-500 dark:text-slate-300">
+            <div class="aether-section-title">
+              <span>Status orbit</span>
+              <span>Realtime</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div
+                v-for="highlight in synergyHighlights"
+                :key="highlight.id"
+                class="group relative overflow-hidden rounded-[20px] border border-white/65 bg-white/80 p-3 text-xs transition hover:-translate-y-0.5 hover:border-indigo-300/70 hover:text-indigo-600 dark:border-white/10 dark:bg-white/10"
               >
-                <svg v-if="item.icon === 'dashboard'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h9M3.75 18.75h9" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 14.25h3.75M16.5 18.75h3.75" />
-                </svg>
-                <svg v-else-if="item.icon === 'pegawai'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-                </svg>
-                <svg v-else-if="item.icon === 'list'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15M4.5 12h15M4.5 17.25h15" />
-                </svg>
-                <svg v-else-if="item.icon === 'leave'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.5H8.25A3.75 3.75 0 0 0 4.5 11.25v0A3.75 3.75 0 0 0 8.25 15H19.5" />
-                </svg>
-                <svg v-else-if="item.icon === 'health'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75V9" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m13.5 5.25-.75-1.5-.75 1.5" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-2.25" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 18.75.75 1.5.75-1.5" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h2.25" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 10.5-1.5.75 1.5.75" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12h-2.25" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 13.5 1.5-.75-1.5-.75" />
-                  <circle cx="12" cy="12" r="3.75" />
-                </svg>
-                <svg v-else-if="item.icon === 'contract'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75h-9A2.25 2.25 0 0 0 5.25 6v12A2.25 2.25 0 0 0 7.5 20.25h9A2.25 2.25 0 0 0 18.75 18V6A2.25 2.25 0 0 0 16.5 3.75Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25h6M9 12h6M9 15.75h3" />
-                </svg>
-              </span>
-              <span>{{ item.label }}</span>
-            </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 transition-transform"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-              :class="isExpanded(item.id) ? 'rotate-180' : ''"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-          </button>
-          <transition name="accordion">
-            <div
-              v-if="isExpanded(item.id)"
-              class="ml-4 mt-1.5 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-800"
-            >
+                <div class="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
+                  <div :class="['absolute inset-0 rounded-[20px]', highlight.overlay]"></div>
+                </div>
+                <div class="relative space-y-2">
+                  <p class="text-[0.58rem] font-semibold uppercase tracking-[0.35em] text-slate-400 dark:text-slate-500">{{ highlight.label }}</p>
+                  <p class="text-lg font-semibold text-slate-900 dark:text-white">{{ highlight.value }}</p>
+                  <p>{{ highlight.caption }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="rounded-[20px] border border-dashed border-white/65 p-4 text-[0.7rem] leading-relaxed text-slate-500 dark:border-white/10 dark:text-slate-400">
+              <p class="font-semibold text-slate-700 dark:text-white">Agenda penting</p>
+              <ul class="mt-2 space-y-1">
+                <li v-for="agenda in focusTimeline" :key="agenda.id" class="flex items-center justify-between gap-2">
+                  <span>{{ agenda.title }}</span>
+                  <span class="aether-pill text-[0.58rem] tracking-[0.3em] text-slate-400 dark:text-slate-500">{{ agenda.when }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <nav class="space-y-4 text-sm text-slate-500 transition dark:text-slate-300">
+            <div class="px-2 text-[0.6rem] font-semibold uppercase tracking-[0.38em] text-slate-400 dark:text-slate-500">
+              Navigasi utama
+            </div>
+            <div v-for="item in menuItems" :key="item.id" class="space-y-1">
               <RouterLink
-                v-for="child in item.children"
-                :key="child.id"
-                :to="child.to"
-                class="group flex items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-sm transition"
+                v-if="!item.children"
+                :to="item.to"
+                class="group relative flex items-center gap-3 rounded-[22px] border border-transparent bg-white/70 px-4 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-300/70 hover:bg-indigo-50 hover:text-indigo-500 dark:bg-white/5 dark:hover:border-indigo-400/60"
                 :class="[
-                  isRouteActive(child.to, child.exact)
-                    ? 'bg-primary/10 text-primary shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                  isRouteActive(item.to, item.exact)
+                    ? 'border-indigo-400/70 bg-indigo-50 text-indigo-600 shadow-[0_38px_100px_-65px_rgba(79,70,229,0.55)] dark:border-indigo-500/50 dark:bg-indigo-500/10 dark:text-indigo-200'
+                    : ''
                 ]"
               >
-                <span class="flex items-center gap-3">
-                  <span
-                    class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary/5 text-primary group-[.bg-primary/10]:bg-white group-[.bg-primary/10]:text-primary"
-                  >
-                    <svg v-if="child.icon === 'dashboard'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h9M3.75 18.75h9" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 14.25h3.75M16.5 18.75h3.75" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'pegawai'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'list'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15M4.5 12h15M4.5 17.25h15" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'leave'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.5H8.25A3.75 3.75 0 0 0 4.5 11.25v0A3.75 3.75 0 0 0 8.25 15H19.5" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'health'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75V9" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m13.5 5.25-.75-1.5-.75 1.5" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-2.25" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 18.75.75 1.5.75-1.5" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h2.25" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 10.5-1.5.75 1.5.75" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 12h-2.25" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 13.5 1.5-.75-1.5-.75" />
-                      <circle cx="12" cy="12" r="3.75" />
-                    </svg>
-                <svg v-else-if="child.icon === 'contract'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75h-9A2.25 2.25 0 0 0 5.25 6v12A2.25 2.25 0 0 0 7.5 20.25h9A2.25 2.25 0 0 0 18.75 18V6A2.25 2.25 0 0 0 16.5 3.75Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25h6M9 12h6M9 15.75h3" />
-                </svg>
-                <svg v-else-if="child.icon === 'profile'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-                </svg>
-                <svg v-else-if="child.icon === 'salary'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5.25h18v13.5H3z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 9h9m-9 3h9m-9 3h5.25" />
-                </svg>
-                <svg v-else-if="child.icon === 'finance'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 19.5h16.5M4.5 8.25h15L12 4.5z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 11.25v5.25m4.5-5.25v5.25m4.5-5.25v5.25" />
-                </svg>
-                <svg v-else-if="child.icon === 'site'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 6.75h18M3 12h18M3 17.25h9" />
-                  <circle cx="17" cy="17" r="2.25" />
-                </svg>
-              </span>
-                  <span>{{ child.label }}</span>
+                <span class="aether-icon-sm border border-white/70 bg-white/80 text-indigo-500 transition group-[.border-indigo-400/70]:border-transparent group-[.border-indigo-400/70]:bg-indigo-500/20 group-[.border-indigo-400/70]:text-indigo-600 dark:border-white/10 dark:bg-white/10">
+                  <SidebarIcon :name="item.icon" />
                 </span>
+                <div class="flex-1">
+                  <p class="font-semibold text-slate-700 transition group-hover:text-indigo-500 dark:text-slate-100">{{ item.label }}</p>
+                  <p class="text-[0.65rem] text-slate-400 group-[.border-indigo-400/70]:text-indigo-400 dark:text-slate-500">Akses modul utama</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300 transition group-hover:text-indigo-400 group-[.border-indigo-400/70]:text-indigo-200 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7" />
+                </svg>
               </RouterLink>
+              <div v-else class="rounded-[24px] border border-white/65 bg-white/75 p-2 transition dark:border-white/10 dark:bg-white/5">
+                <button
+                  type="button"
+                  class="flex w-full items-center justify-between gap-3 rounded-[20px] px-3 py-2.5 text-left font-semibold text-slate-600 transition hover:text-indigo-500 dark:text-slate-200"
+                  :class="[
+                    isParentActive(item)
+                      ? 'bg-indigo-50 text-indigo-500 shadow-[0_34px_90px_-60px_rgba(79,70,229,0.55)] dark:bg-indigo-500/10 dark:text-indigo-200'
+                      : ''
+                  ]"
+                  @click="handleParentClick(item)"
+                >
+                  <span class="flex flex-1 items-center gap-3">
+                    <span class="aether-icon-sm border border-white/70 bg-white/80 text-indigo-500 transition group-[.bg-indigo-50]:border-transparent group-[.bg-indigo-50]:bg-indigo-500/15 group-[.bg-indigo-50]:text-indigo-600 dark:border-white/10 dark:bg-white/10">
+                      <SidebarIcon :name="item.icon" />
+                    </span>
+                    <span>{{ item.label }}</span>
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 text-slate-400 transition-transform group-[.bg-indigo-50]:text-indigo-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    :class="isExpanded(item.id) ? 'rotate-180 text-indigo-400 dark:text-indigo-200' : ''"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </button>
+                <transition name="accordion">
+                  <div
+                    v-if="isExpanded(item.id)"
+                    class="mt-2 space-y-1 rounded-[20px] border border-white/65 bg-white/80 p-2 text-slate-500 shadow-inner transition dark:border-white/10 dark:bg-white/10 dark:text-slate-300"
+                  >
+                    <RouterLink
+                      v-for="child in item.children"
+                      :key="child.id"
+                      :to="child.to"
+                      class="group flex items-center justify-between gap-2 rounded-[18px] px-3 py-2 text-sm transition hover:bg-indigo-50 hover:text-indigo-500 dark:hover:bg-indigo-500/10"
+                      :class="[
+                        isRouteActive(child.to, child.exact)
+                          ? 'bg-indigo-50 text-indigo-500 shadow-[0_28px_70px_-55px_rgba(79,70,229,0.55)] dark:bg-indigo-500/15 dark:text-indigo-200'
+                          : ''
+                      ]"
+                    >
+                      <span class="flex items-center gap-3">
+                        <span class="aether-icon-sm border border-white/70 bg-white/80 text-indigo-500 transition group-[.bg-indigo-50]:border-transparent group-[.bg-indigo-50]:bg-indigo-500/20 group-[.bg-indigo-50]:text-indigo-600 dark:border-white/10 dark:bg-white/10">
+                          <SidebarIcon :name="child.icon" />
+                        </span>
+                        <span>{{ child.label }}</span>
+                      </span>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300 opacity-0 transition-opacity group-hover:opacity-100 group-[.bg-indigo-50]:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7" />
+                      </svg>
+                    </RouterLink>
+                  </div>
+                </transition>
+              </div>
             </div>
-          </transition>
+          </nav>
         </div>
       </div>
-    </nav>
-    <div class="border-t border-slate-200 px-4 py-4 dark:border-slate-800">
-      <div class="mb-3 flex items-center gap-3">
-        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-lg font-semibold text-primary dark:bg-primary/20">
-          {{ inisialUser }}
+
+      <div class="aether-panel space-y-4 p-5 text-sm text-slate-600 dark:text-slate-200">
+        <div class="flex items-center gap-3">
+          <div class="aether-avatar text-xs">{{ inisialUser }}</div>
+          <div>
+            <p class="font-semibold text-slate-900 dark:text-white">{{ user?.nama ?? 'Admin AMK PORTAL' }}</p>
+            <p class="text-xs text-slate-400 dark:text-slate-500">{{ user?.email ?? 'admin@gmail.com' }}</p>
+          </div>
         </div>
-        <div class="text-sm">
-          <p class="font-semibold text-slate-800 dark:text-slate-100">{{ user?.nama ?? 'Admin AMK PORTAL' }}</p>
-          <p class="text-xs text-slate-500 dark:text-slate-400">{{ user?.email ?? 'admin@gmail.com' }}</p>
+        <div class="grid grid-cols-2 gap-3 text-xs text-slate-500 dark:text-slate-400">
+          <div class="rounded-[18px] border border-white/65 bg-white/80 px-3 py-2 dark:border-white/10 dark:bg-white/10">
+            <p class="text-[0.58rem] uppercase tracking-[0.3em]">Shift</p>
+            <p class="mt-1 font-semibold text-slate-800 dark:text-white">Pagi</p>
+          </div>
+          <div class="rounded-[18px] border border-white/65 bg-white/80 px-3 py-2 dark:border-white/10 dark:bg-white/10">
+            <p class="text-[0.58rem] uppercase tracking-[0.3em]">Lokasi</p>
+            <p class="mt-1 font-semibold text-slate-800 dark:text-white">Balikpapan</p>
+          </div>
+        </div>
+        <button type="button" class="aether-glass-button w-full justify-center text-indigo-600 hover:text-indigo-500 dark:text-indigo-200" @click="handleLogoutClick">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+          </svg>
+          Keluar
+        </button>
+        <div class="rounded-[18px] border border-white/65 bg-white/80 p-3 text-[0.72rem] leading-relaxed text-slate-500 transition dark:border-white/10 dark:bg-white/10 dark:text-slate-400">
+          <p class="font-semibold text-slate-700 dark:text-slate-100">Butuh bantuan?</p>
+          <p class="mt-1">Hubungi tim HC melalui portal internal atau email support@amk.co.id</p>
         </div>
       </div>
-      <button
-        type="button"
-        class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:border-red-400 hover:bg-red-50 hover:text-red-600 dark:border-slate-700 dark:text-slate-200 dark:hover:border-red-400/60 dark:hover:bg-red-500/10 dark:hover:text-red-300"
-        @click="handleLogoutClick"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-        </svg>
-        <span>Keluar</span>
-      </button>
+
+      <ConfirmDialog v-model="showLogoutConfirm" title="Keluar dari AMK PORTAL" message="Apakah Anda yakin ingin keluar dari AMK PORTAL?" :loading="logoutLoading" @confirm="confirmLogout" />
     </div>
-    <ConfirmDialog
-      v-model="showLogoutConfirm"
-      title="Keluar dari AMK PORTAL"
-      message="Apakah Anda yakin ingin keluar dari AMK PORTAL?"
-      :loading="logoutLoading"
-      @confirm="confirmLogout"
-    />
   </aside>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { useRouter, useRoute, RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import ConfirmDialog from './ConfirmDialog.vue';
+import SidebarIcon from './icons/SidebarIcon.vue';
+import { roleLabelMap } from '../constants/roles';
+import { employeeAtlas } from '../data/employeeAtlas';
 import type { UserRole } from '../types';
 
 interface MenuChild {
@@ -282,216 +264,116 @@ const props = defineProps<{
   mobileOpen: boolean;
 }>();
 
-defineEmits(['close-mobile']);
+const emit = defineEmits(['close-mobile']);
 
 const route = useRoute();
 const router = useRouter();
+const auth = useAuthStore();
 
-const mobileOpen = computed(() => props.mobileOpen);
 const showLogoutConfirm = ref(false);
 const logoutLoading = ref(false);
 
-const menuByRole: Record<UserRole, MenuItem[]> = {
-  admin_hcgs: [
+const expanded = ref<string[]>([]);
+
+const menuItems = computed<MenuItem[]>(() => {
+  const role = auth.state.user?.role as UserRole | undefined;
+
+  const baseMenu: MenuItem[] = [
     {
       id: 'dashboard',
-      label: 'Dashboard',
-      to: '/dashboard',
+      label: 'Dasbor',
+      to: '/',
       icon: 'dashboard',
       exact: true
     },
     {
       id: 'pegawai',
-      label: 'Kepegawaian',
-      to: '/pegawai',
+      label: 'Data Pegawai',
       icon: 'pegawai',
       children: [
         {
-          id: 'pegawai-data',
-          label: 'Data Pegawai',
+          id: 'daftar-pegawai',
+          label: 'Daftar Pegawai',
           to: '/pegawai',
-          icon: 'list',
-          exact: true
+          icon: 'list'
         },
         {
-          id: 'pegawai-cuti',
+          id: 'cuti',
           label: 'Pengajuan Cuti',
-          to: '/pegawai/pengajuan-cuti',
+          to: '/cuti',
           icon: 'leave'
         },
         {
-          id: 'pegawai-mcu',
-          label: 'Pengajuan MCU',
-          to: '/pegawai/pengajuan-mcu',
+          id: 'kesehatan',
+          label: 'Kesehatan & BPJS',
+          to: '/kesehatan',
           icon: 'health'
-        },
-        {
-          id: 'pegawai-kontrak',
-          label: 'Buat Kontrak',
-          to: '/pegawai/buat-kontrak',
-          icon: 'contract'
         }
       ]
+    },
+    {
+      id: 'kontrak',
+      label: 'Kontrak Kerja',
+      to: '/kontrak',
+      icon: 'contract'
+    },
+    {
+      id: 'profil',
+      label: 'Profil Pegawai',
+      to: '/profil',
+      icon: 'profile'
+    },
+    {
+      id: 'gaji',
+      label: 'Payroll & Gaji',
+      to: '/gaji',
+      icon: 'salary'
+    },
+    {
+      id: 'keuangan',
+      label: 'Keuangan Proyek',
+      to: '/keuangan',
+      icon: 'finance'
+    },
+    {
+      id: 'site',
+      label: 'Monitoring Site',
+      to: '/site',
+      icon: 'site'
     }
-  ],
-  pegawai: [
-    {
-      id: 'pegawai-dashboard',
-      label: 'Dashboard Pegawai',
-      to: '/pegawai-saya/dashboard',
-      icon: 'dashboard',
-      exact: true
-    },
-    {
-      id: 'pegawai-services',
-      label: 'Kepegawaian Saya',
-      to: '/pegawai-saya/biodata',
-      icon: 'pegawai',
-      children: [
-        {
-          id: 'pegawai-biodata',
-          label: 'Biodata',
-          to: '/pegawai-saya/biodata',
-          icon: 'profile',
-          exact: true
-        },
-        {
-          id: 'pegawai-slip',
-          label: 'Slip Gaji',
-          to: '/pegawai-saya/slip-gaji',
-          icon: 'salary'
-        }
-      ]
-    },
-    {
-      id: 'pegawai-requests',
-      label: 'Pengajuan',
-      to: '/pegawai-saya/ajukan-cuti',
+  ];
+
+  if (role === 'superadmin' || role === 'admin') {
+    baseMenu.splice(2, 0, {
+      id: 'administrasi',
+      label: 'Administrasi',
       icon: 'list',
       children: [
         {
-          id: 'pegawai-apply-leave',
-          label: 'Ajukan Cuti',
-          to: '/pegawai-saya/ajukan-cuti',
-          icon: 'leave'
+          id: 'struktur-organisasi',
+          label: 'Struktur Organisasi',
+          to: '/struktur',
+          icon: 'pegawai'
         },
         {
-          id: 'pegawai-apply-mcu',
-          label: 'Ajukan MCU',
-          to: '/pegawai-saya/ajukan-mcu',
-          icon: 'health'
+          id: 'penugasan',
+          label: 'Penugasan Proyek',
+          to: '/penugasan',
+          icon: 'site'
         }
       ]
-    }
-  ],
-  admin_finance: [
-    {
-      id: 'finance-dashboard',
-      label: 'Dashboard Finance',
-      to: '/finance',
-      icon: 'finance',
-      exact: true
-    }
-  ],
-  officer_site: [
-    {
-      id: 'officer-site-dashboard',
-      label: 'Officer Site',
-      to: '/officer-site',
-      icon: 'site',
-      exact: true
-    }
-  ],
-  superadmin: [
-    {
-      id: 'superadmin-accounts',
-      label: 'Kelola Role Pegawai',
-      to: '/superadmin/akun',
-      icon: 'pegawai',
-      exact: true
-    }
-  ]
-};
+    });
+  }
 
-const auth = useAuthStore();
-
-const menuItems = computed<MenuItem[]>(() => {
-  const role = auth.state.user?.role;
-  if (!role) return [];
-  return menuByRole[role] ?? [];
+  return baseMenu;
 });
 
-const expandedKeys = ref<string[]>([]);
-
-const isExpanded = (id: string) => expandedKeys.value.includes(id);
-
-const ensureExpanded = (id: string) => {
-  if (!isExpanded(id)) {
-    expandedKeys.value.push(id);
-  }
-};
-
-const collapseExpanded = (id: string) => {
-  expandedKeys.value = expandedKeys.value.filter((key) => key !== id);
-};
-
-const toggleExpanded = (id: string) => {
-  if (isExpanded(id)) {
-    collapseExpanded(id);
-  } else {
-    ensureExpanded(id);
-  }
-};
-
-const isRouteActive = (to?: string, exact = false) => {
-  if (!to) return false;
-  if (route.path === to) return true;
-  if (exact) return false;
-  if (route.path.startsWith(`${to}/`)) return true;
-  if (route.path.startsWith(`${to}?`)) return true;
-  return false;
-};
-
-const isParentActive = (item: MenuItem) => {
-  const directActive = isRouteActive(item.to, item.exact);
-  const childActive = item.children?.some((child) => isRouteActive(child.to, child.exact)) ?? false;
-  return directActive || childActive;
-};
-
-const handleParentClick = (item: MenuItem) => {
-  toggleExpanded(item.id);
-};
-
-watch(
-  () => route.path,
-  (path) => {
-    menuItems.value.forEach((item) => {
-      if (!item.children) return;
-      const parentPath = item.to;
-      const shouldExpand =
-        (parentPath ? path.startsWith(parentPath) : false) ||
-        item.children.some((child) => child.to && path.startsWith(child.to));
-      if (shouldExpand) {
-        ensureExpanded(item.id);
-      }
-    });
-  },
-  { immediate: true }
-);
-
-watch(
-  () => menuItems.value,
-  () => {
-    expandedKeys.value = [];
-    const activeParent = menuItems.value.find((item) => isParentActive(item));
-    if (activeParent && activeParent.children) {
-      ensureExpanded(activeParent.id);
-    }
-  },
-  { immediate: true }
-);
-
 const user = computed(() => auth.state.user);
+const roleLabel = computed(() => {
+  const role = user.value?.role;
+  if (!role) return 'Pengguna';
+  return roleLabelMap[role] ?? role;
+});
 
 const inisialUser = computed(() => {
   if (!user.value) return 'AD';
@@ -503,6 +385,133 @@ const inisialUser = computed(() => {
     .toUpperCase();
 });
 
+const atlasSummary = (() => {
+  let active = 0;
+  let onboarding = 0;
+  let rotation = 0;
+  let highPotential = 0;
+  let highRisk = 0;
+  let readinessTotal = 0;
+  let wellbeingTotal = 0;
+  let engagementTotal = 0;
+  const locations = new Set<string>();
+  const programCount = new Map<string, number>();
+
+  for (const item of employeeAtlas) {
+    locations.add(item.location);
+    if (item.status === 'Aktif') active += 1;
+    if (item.status === 'Onboarding') onboarding += 1;
+    if (item.status === 'Rotasi' || item.status === 'Mutasi') rotation += 1;
+    if (item.potentialScore >= 90 || item.leadershipReadiness >= 75) highPotential += 1;
+    if (item.riskLevel === 'Tinggi') highRisk += 1;
+    readinessTotal += item.readinessIndex;
+    wellbeingTotal += item.wellbeingScore;
+    engagementTotal += item.engagementScore;
+
+    const count = programCount.get(item.flagshipProgram) ?? 0;
+    programCount.set(item.flagshipProgram, count + 1);
+  }
+
+  let topProgram = 'Accelerate';
+  let topProgramCount = 0;
+  programCount.forEach((value, key) => {
+    if (value > topProgramCount) {
+      topProgram = key;
+      topProgramCount = value;
+    }
+  });
+
+  const readinessAverage = Math.round(readinessTotal / employeeAtlas.length);
+  const wellbeingAverage = Math.round(wellbeingTotal / employeeAtlas.length);
+  const engagementAverage = Math.round(engagementTotal / employeeAtlas.length);
+
+  return {
+    total: employeeAtlas.length,
+    active,
+    onboarding,
+    rotation,
+    highPotential,
+    highRisk,
+    locations: locations.size,
+    readinessAverage,
+    wellbeingAverage,
+    engagementAverage,
+    topProgram
+  };
+})();
+
+const readinessProgress = `${Math.min(100, Math.max(0, atlasSummary.readinessAverage))}%`;
+
+const synergyHighlights = computed(() => [
+  {
+    id: 'rotation',
+    label: 'Rotasi & Mutasi',
+    value: `${atlasSummary.rotation} kru`,
+    caption: 'Penyesuaian empat site prioritas.',
+    overlay: 'bg-gradient-to-br from-indigo-100/35 via-transparent to-sky-100/30 dark:from-indigo-500/15 dark:to-sky-500/15'
+  },
+  {
+    id: 'risk',
+    label: 'Alert risiko tinggi',
+    value: `${atlasSummary.highRisk}`,
+    caption: 'Perlu sesi coaching pekan ini.',
+    overlay: 'bg-gradient-to-br from-rose-100/35 via-transparent to-amber-100/30 dark:from-rose-500/15 dark:to-amber-500/15'
+  },
+  {
+    id: 'wellbeing',
+    label: 'Skor wellbeing',
+    value: `${atlasSummary.wellbeingAverage}/100`,
+    caption: 'Pulse kesehatan kru lintas site.',
+    overlay: 'bg-gradient-to-br from-emerald-100/35 via-transparent to-teal-100/30 dark:from-emerald-500/15 dark:to-teal-500/15'
+  },
+  {
+    id: 'engagement',
+    label: 'Keterlibatan',
+    value: `${atlasSummary.engagementAverage}/100`,
+    caption: 'Partisipasi modul apresiasi.',
+    overlay: 'bg-gradient-to-br from-sky-100/35 via-transparent to-indigo-100/30 dark:from-sky-500/15 dark:to-indigo-500/15'
+  }
+]);
+
+const focusTimeline = computed(() => [
+  { id: 'townhall', title: 'Townhall Kalimantan Timur', when: '7 Juni' },
+  { id: 'coaching', title: 'Coaching supervisor site', when: '9 Juni' },
+  { id: 'audit', title: 'Audit dokumen kontrak', when: '12 Juni' }
+]);
+
+watch(
+  () => route.fullPath,
+  () => {
+    if (!props.mobileOpen) return;
+    expanded.value = [];
+    emit('close-mobile');
+  }
+);
+
+const isRouteActive = (to?: string, exact = false) => {
+  if (!to) return false;
+  if (exact) {
+    return route.path === to;
+  }
+  return route.path.startsWith(to);
+};
+
+const isParentActive = (item: MenuItem) => {
+  if (!item.children) return false;
+  return item.children.some((child) => isRouteActive(child.to, child.exact));
+};
+
+const isExpanded = (id: string) => expanded.value.includes(id);
+
+const handleParentClick = (item: MenuItem) => {
+  if (!item.children) return;
+  if (isExpanded(item.id)) {
+    expanded.value = expanded.value.filter((value) => value !== item.id);
+  } else {
+    expanded.value = [...expanded.value, item.id];
+  }
+};
+
 const handleLogoutClick = () => {
   showLogoutConfirm.value = true;
 };
@@ -511,33 +520,9 @@ const confirmLogout = async () => {
   logoutLoading.value = true;
   try {
     await auth.logout();
-    showLogoutConfirm.value = false;
-    router.replace({ name: 'login' });
+    await router.push('/login');
   } finally {
     logoutLoading.value = false;
   }
 };
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.accordion-enter-active,
-.accordion-leave-active {
-  transition: all 0.2s ease;
-}
-
-.accordion-enter-from,
-.accordion-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-</style>

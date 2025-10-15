@@ -1,30 +1,41 @@
 <template>
   <div
     v-if="isGuestLayout"
-    class="relative min-h-screen bg-gradient-to-br from-white via-slate-50 to-blue-50 text-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100"
+    class="relative min-h-screen overflow-hidden text-slate-800 transition-colors duration-700 dark:text-slate-100"
   >
-    <div class="pointer-events-none absolute inset-0 overflow-hidden">
-      <div class="absolute -left-32 top-24 h-72 w-72 rounded-full bg-primary/20 blur-[140px]"></div>
-      <div class="absolute bottom-[-10%] right-[-15%] h-[28rem] w-[28rem] rounded-full bg-blue-300/30 blur-[160px]"></div>
+    <div class="pointer-events-none absolute inset-0 -z-10">
+      <div class="absolute inset-0 celestial-weave"></div>
+      <div class="absolute inset-0 nebula-grid"></div>
+      <div class="aether-float absolute -left-32 top-12 h-[26rem] w-[26rem] rounded-full bg-indigo-200/50 blur-[240px] dark:bg-indigo-500/20"></div>
+      <div class="aether-wave absolute -right-40 bottom-[-12rem] h-[32rem] w-[32rem] rounded-full bg-sky-200/55 blur-[240px] dark:bg-sky-500/25"></div>
     </div>
-    <div class="relative z-10">
-      <RouterView />
+    <div class="relative z-10 py-16 sm:py-20 lg:py-24">
+      <div class="cosmic-container-compact">
+        <RouterView />
+      </div>
     </div>
   </div>
   <div
     v-else
-    class="relative min-h-screen bg-gradient-to-br from-slate-100 via-white to-blue-50 text-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100"
+    class="relative min-h-screen overflow-hidden text-slate-700 transition-colors duration-700 dark:text-slate-100"
   >
-    <Sidebar
-      :mobile-open="isSidebarOpenMobile"
-      @close-mobile="isSidebarOpenMobile = false"
-    />
-    <div class="relative min-h-screen transition-[padding] duration-200 ease-out lg:pl-72">
-      <div class="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(circle_at_top,rgba(37,99,235,0.12),transparent_60%)] lg:block"></div>
+    <div class="pointer-events-none absolute inset-0 -z-20">
+      <div class="absolute inset-0 celestial-weave opacity-80"></div>
+      <div class="absolute inset-0 nebula-grid opacity-40"></div>
+      <div class="aether-float absolute -left-28 top-32 h-[30rem] w-[30rem] rounded-full bg-indigo-200/45 blur-[240px] dark:bg-indigo-500/25"></div>
+      <div class="aether-orbit absolute -right-32 bottom-[-14rem] h-[36rem] w-[36rem] rounded-full bg-sky-200/50 blur-[250px] dark:bg-purple-500/25"></div>
+    </div>
+    <Sidebar :mobile-open="isSidebarOpenMobile" @close-mobile="isSidebarOpenMobile = false" />
+    <div class="relative flex min-h-screen flex-col transition-[padding] duration-500 ease-out lg:pl-[22rem] xl:pl-[24rem]">
+      <div class="pointer-events-none absolute inset-0 -z-10">
+        <div class="absolute inset-0 bg-white/70 backdrop-blur-[2px] dark:bg-slate-950/65"></div>
+      </div>
       <div class="relative z-10 flex min-h-screen flex-col">
         <Navbar @toggle-sidebar="handleToggleSidebar" />
-        <main class="flex-1 overflow-y-auto px-4 pb-10 pt-6 sm:px-6 lg:px-10">
-          <RouterView />
+        <main class="flex-1 overflow-y-auto">
+          <div class="cosmic-container-wide pb-20 pt-12">
+            <RouterView />
+          </div>
         </main>
       </div>
     </div>

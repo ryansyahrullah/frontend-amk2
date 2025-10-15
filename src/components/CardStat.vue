@@ -1,50 +1,76 @@
 <template>
-  <div :class="['relative overflow-hidden rounded-3xl p-6 transition duration-300 hover:-translate-y-1', styles.container]">
-    <div v-if="styles.highlight" :class="styles.highlight"></div>
-    <div class="relative flex items-start justify-between">
-      <div>
-        <p class="text-sm font-medium" :class="styles.title">{{ title }}</p>
-        <h3 class="mt-3 text-3xl font-semibold tracking-tight">{{ value }}</h3>
-        <p v-if="description" class="mt-2 text-sm" :class="styles.description">{{ description }}</p>
-      </div>
-      <div :class="['flex h-12 w-12 items-center justify-center rounded-2xl', styles.icon]">
-        <slot name="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-          </svg>
-        </slot>
-      </div>
-    </div>
-    <div v-if="$slots.footer" class="relative mt-6">
-      <slot name="footer" />
-    </div>
-    <div v-if="trendValue" class="relative mt-6 flex items-center gap-2 text-sm">
-      <span :class="['inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', styles.trendBadge]">
-        <svg
-          v-if="trendPositive"
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="1.5"
+  <div
+    :class="[
+      'group relative overflow-hidden aether-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_48px_140px_-72px_rgba(15,23,42,0.58)]',
+      styles.container
+    ]"
+  >
+    <div
+      v-if="styles.overlay"
+      :class="['pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100', styles.overlay]"
+    ></div>
+    <div class="relative flex flex-col gap-6">
+      <div class="flex items-start gap-4">
+        <div :class="['aether-icon shadow-none transition group-hover:scale-105', styles.icon]">
+          <slot name="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+            </svg>
+          </slot>
+        </div>
+        <div class="flex-1 space-y-3">
+          <p class="text-[0.58rem] font-semibold uppercase tracking-[0.4em]" :class="styles.title">{{ title }}</p>
+          <div class="flex flex-wrap items-baseline gap-3">
+            <h3 class="text-3xl font-semibold sm:text-4xl" :class="styles.value">{{ value }}</h3>
+            <span
+              v-if="trendValue"
+              :class="[
+                'inline-flex items-center gap-1 rounded-full px-3 py-1 text-[0.68rem] font-semibold transition aether-sheen',
+                styles.trendBadge
+              ]"
+            >
+              <svg
+                v-if="trendPositive"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12 6 6 9-12" />
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 12-6 6-9-12" />
+              </svg>
+              {{ trendValue }}
+            </span>
+          </div>
+        </div>
+        <span
+          v-if="trendValue"
+          class="rounded-full bg-white/75 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.36em] text-slate-400 shadow-inner dark:bg-white/10"
+          :class="styles.tag"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l6-6 4.5 4.5L19.5 9" />
-        </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="1.5"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-6 6-4.5-4.5L4.5 15" />
-        </svg>
-        {{ trendValue }}
-      </span>
-      <span class="text-xs" :class="styles.trendText">{{ trendLabel }}</span>
+          {{ trendLabelComputed }}
+        </span>
+      </div>
+      <p v-if="description" class="text-xs leading-relaxed sm:text-sm" :class="styles.description">{{ description }}</p>
+      <div v-if="$slots.footer" class="pt-3 text-xs sm:text-sm">
+        <slot name="footer" />
+      </div>
+      <div v-if="trendValue" class="flex items-center gap-2 text-[0.68rem]" :class="styles.trendText">
+        <span class="h-1 w-12 rounded-full bg-current/20"></span>
+        <span>{{ trendPositive ? 'Meningkat' : 'Menurun' }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -72,49 +98,59 @@ const props = withDefaults(
 
 const variantMap: Record<Variant, Record<string, string>> = {
   primary: {
-    container: 'bg-gradient-to-br from-primary via-primary-soft to-primary-dark text-white shadow-glow',
-    icon: 'bg-white/20 text-white',
-    title: 'text-white/70',
-    description: 'text-white/70',
-    trendBadge: 'bg-white/20 text-white',
-    trendText: 'text-white/70',
-    highlight: 'pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-3xl'
+    container: 'aether-gradient-border',
+    icon: 'bg-gradient-to-br from-sky-500/20 via-sky-400/10 to-emerald-400/15 text-sky-500 dark:text-sky-200',
+    title: 'text-sky-500 dark:text-sky-200',
+    value: 'text-slate-900 dark:text-white',
+    description: 'text-slate-500 dark:text-slate-300',
+    trendBadge: 'bg-sky-100 text-sky-600 dark:bg-sky-500/20 dark:text-sky-200',
+    trendText: 'text-sky-500 dark:text-sky-300',
+    overlay: 'bg-gradient-to-br from-sky-200/35 via-transparent to-emerald-200/25 dark:from-sky-500/20 dark:to-emerald-500/15',
+    tag: 'text-sky-500 dark:text-sky-300'
   },
   indigo: {
-    container: 'bg-gradient-to-br from-indigo-500 via-indigo-400 to-indigo-600 text-white shadow-glow',
-    icon: 'bg-white/15 text-white',
-    title: 'text-white/70',
-    description: 'text-white/70',
-    trendBadge: 'bg-white/15 text-white',
-    trendText: 'text-white/70',
-    highlight: 'pointer-events-none absolute -bottom-8 right-6 h-28 w-28 rounded-full bg-white/10 blur-3xl'
+    container: 'aether-gradient-border',
+    icon: 'bg-gradient-to-br from-indigo-500/20 via-indigo-400/10 to-sky-400/15 text-indigo-500 dark:text-indigo-200',
+    title: 'text-indigo-500 dark:text-indigo-200',
+    value: 'text-slate-900 dark:text-white',
+    description: 'text-slate-500 dark:text-slate-300',
+    trendBadge: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-200',
+    trendText: 'text-indigo-400 dark:text-indigo-200',
+    overlay: 'bg-gradient-to-br from-indigo-200/30 via-transparent to-sky-200/20 dark:from-indigo-500/18 dark:to-sky-500/15',
+    tag: 'text-indigo-400 dark:text-indigo-200'
   },
   rose: {
-    container: 'bg-gradient-to-br from-rose-500 via-rose-400 to-rose-600 text-white shadow-glow',
-    icon: 'bg-white/15 text-white',
-    title: 'text-white/70',
-    description: 'text-white/70',
-    trendBadge: 'bg-white/15 text-white',
-    trendText: 'text-white/70',
-    highlight: 'pointer-events-none absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-white/10 blur-3xl'
+    container: 'aether-gradient-border',
+    icon: 'bg-gradient-to-br from-rose-500/20 via-rose-400/10 to-amber-400/10 text-rose-500 dark:text-rose-200',
+    title: 'text-rose-500 dark:text-rose-200',
+    value: 'text-slate-900 dark:text-white',
+    description: 'text-slate-500 dark:text-slate-300',
+    trendBadge: 'bg-rose-100 text-rose-500 dark:bg-rose-500/20 dark:text-rose-200',
+    trendText: 'text-rose-400 dark:text-rose-200',
+    overlay: 'bg-gradient-to-br from-rose-200/30 via-transparent to-amber-200/20 dark:from-rose-500/18 dark:to-amber-500/12',
+    tag: 'text-rose-400 dark:text-rose-200'
   },
   emerald: {
-    container: 'bg-gradient-to-br from-emerald-500 via-emerald-400 to-emerald-600 text-white shadow-glow',
-    icon: 'bg-white/15 text-white',
-    title: 'text-white/70',
-    description: 'text-white/70',
-    trendBadge: 'bg-white/15 text-white',
-    trendText: 'text-white/70',
-    highlight: 'pointer-events-none absolute right-0 top-12 h-28 w-28 rounded-full bg-white/10 blur-3xl'
+    container: 'aether-gradient-border',
+    icon: 'bg-gradient-to-br from-emerald-500/20 via-emerald-400/10 to-teal-400/12 text-emerald-500 dark:text-emerald-200',
+    title: 'text-emerald-500 dark:text-emerald-200',
+    value: 'text-slate-900 dark:text-white',
+    description: 'text-slate-500 dark:text-slate-300',
+    trendBadge: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-200',
+    trendText: 'text-emerald-400 dark:text-emerald-200',
+    overlay: 'bg-gradient-to-br from-emerald-200/30 via-transparent to-teal-200/15 dark:from-emerald-500/18 dark:to-teal-500/12',
+    tag: 'text-emerald-400 dark:text-emerald-200'
   },
   neutral: {
-    container: 'border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900',
-    icon: 'bg-primary/10 text-primary',
-    title: 'text-slate-500 dark:text-slate-400',
-    description: 'text-slate-500 dark:text-slate-400',
-    trendBadge: 'bg-primary/10 text-primary',
-    trendText: 'text-slate-500 dark:text-slate-400',
-    highlight: ''
+    container: '',
+    icon: 'bg-gradient-to-br from-slate-100 via-white to-white text-slate-500 dark:from-white/10 dark:via-white/5 dark:to-white/5 dark:text-slate-200',
+    title: 'text-slate-400 dark:text-slate-400',
+    value: 'text-slate-900 dark:text-white',
+    description: 'text-slate-500 dark:text-slate-300',
+    trendBadge: 'bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-200',
+    trendText: 'text-slate-400 dark:text-slate-400',
+    overlay: 'bg-gradient-to-br from-white/50 via-transparent to-slate-100/20 dark:from-white/10 dark:to-slate-900/20',
+    tag: 'text-slate-400 dark:text-slate-400'
   }
 };
 
@@ -122,5 +158,5 @@ const styles = computed(() => variantMap[props.variant]);
 
 const trendValue = computed(() => props.trendValue);
 const trendPositive = computed(() => props.trendPositive);
-const trendLabel = computed(() => props.trendLabel ?? 'dibanding periode lalu');
+const trendLabelComputed = computed(() => props.trendLabel ?? 'dibanding periode lalu');
 </script>
