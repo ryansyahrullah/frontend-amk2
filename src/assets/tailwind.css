@@ -4,17 +4,147 @@
 
 @layer base {
   html {
+    font-size: clamp(14px, 0.35vw + 14px, 16px);
     font-family: theme('fontFamily.sans');
-    @apply bg-slate-100 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+    @apply antialiased;
   }
 
   body {
-    @apply min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+    @apply min-h-screen bg-slate-50 text-slate-800 transition-colors duration-500 ease-out;
+    background-image: radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.08), transparent 45%),
+      radial-gradient(circle at 88% 12%, rgba(14, 165, 233, 0.1), transparent 50%),
+      radial-gradient(circle at 50% 82%, rgba(249, 115, 22, 0.08), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+    background-image: radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.18), transparent 55%),
+      radial-gradient(circle at 85% 18%, rgba(236, 72, 153, 0.16), transparent 55%),
+      radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.22), transparent 65%);
+  }
+
+  *,
+  ::before,
+  ::after {
+    min-width: 0;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply rounded-3xl border border-white/10 bg-white/80 p-6 shadow-card backdrop-blur-lg dark:bg-slate-900/70;
+    @apply rounded-[28px] border border-slate-200/60 bg-white/70 p-6 shadow-[0_30px_70px_-45px_rgba(15,23,42,0.6)] backdrop-blur-xl transition-colors duration-500 ease-out dark:border-white/10 dark:bg-slate-900/50 dark:shadow-[0_35px_85px_-45px_rgba(15,23,42,0.75)];
+  }
+
+  .gradient-ring {
+    @apply relative overflow-hidden rounded-full border border-slate-200/60 bg-white/60 shadow-inner transition-colors duration-500 dark:border-white/10 dark:bg-slate-900/70;
+  }
+
+  .sparkle-border {
+    @apply relative overflow-hidden rounded-3xl border border-transparent bg-white/60 shadow-[0_24px_60px_-35px_rgba(15,118,110,0.45)] backdrop-blur-xl transition-colors duration-500 dark:bg-white/5 dark:shadow-[0_28px_70px_-40px_rgba(56,189,248,0.5)];
+  }
+
+  .frosted-panel {
+    @apply rounded-3xl border border-slate-200/60 bg-white/80 shadow-card backdrop-blur-xl transition-colors duration-500 dark:border-white/10 dark:bg-slate-900/60;
+  }
+}
+
+@layer utilities {
+  .safe-container {
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10 xl:px-12;
+  }
+
+  .aurora-sheen::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0 opacity-60 blur-3xl;
+    background: radial-gradient(circle at 20% 20%, rgba(59,130,246,0.45), transparent 55%),
+      radial-gradient(circle at 80% 0%, rgba(244,114,182,0.35), transparent 55%),
+      radial-gradient(circle at 50% 80%, rgba(14,165,233,0.4), transparent 55%);
+    animation: auroraFlow 12s ease-in-out infinite;
+  }
+
+  .floating {
+    animation: floating 6s ease-in-out infinite;
+  }
+
+  .pulse-border {
+    animation: pulseBorder 4s linear infinite;
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.15) 35%, transparent 70%);
+    animation: shimmer 3.2s infinite;
+  }
+
+  .orbital-grid {
+    background-image: radial-gradient(circle at 0.5px 0.5px, rgba(148, 163, 184, 0.25) 0.5px, transparent 0);
+    background-size: 26px 26px;
+  }
+
+  .dark .orbital-grid {
+    background-image: radial-gradient(circle at 0.5px 0.5px, rgba(148, 163, 184, 0.16) 0.5px, transparent 0);
+  }
+}
+
+@keyframes auroraFlow {
+  0% {
+    transform: translate3d(-5%, -3%, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(5%, 3%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-5%, -2%, 0) scale(1.05);
+  }
+}
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59,130,246,0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59,130,246,0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59,130,246,0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(120%);
   }
 }
