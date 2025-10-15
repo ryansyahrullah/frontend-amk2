@@ -2,11 +2,11 @@
   <button
     type="button"
     :aria-label="isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap'"
-    class="group relative inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/85 px-3 py-1.5 text-sm font-semibold text-slate-600 shadow-[0_18px_45px_-38px_rgba(15,23,42,0.55)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:text-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 dark:border-white/10 dark:bg-white/10 dark:text-slate-200"
+    class="group relative inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 shadow-[0_22px_60px_-48px_rgba(15,23,42,0.45)] backdrop-blur-2xl transition hover:-translate-y-0.5 hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50 dark:border-white/10 dark:bg-white/10 dark:text-slate-300"
     @click="toggleTheme"
   >
     <span
-      class="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border border-white/60 bg-gradient-to-br from-sky-500/10 via-white/80 to-white shadow-inner transition group-hover:scale-105 dark:border-white/10 dark:from-slate-900/70 dark:via-slate-800/70 dark:to-slate-900/70"
+      class="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-white/60 bg-gradient-to-br from-indigo-500/15 via-white/70 to-white shadow-inner transition group-hover:scale-105 dark:border-white/10 dark:from-slate-900/70 dark:via-slate-800/60 dark:to-slate-900/60"
     >
       <svg
         v-if="!isDark"
@@ -31,12 +31,12 @@
       <span class="absolute inset-0 rounded-full bg-gradient-to-br from-white/40 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></span>
     </span>
     <template v-if="!compact">
-      <span class="hidden text-xs font-semibold uppercase tracking-[0.3em] text-slate-400 transition group-hover:text-sky-500 dark:text-slate-400 dark:group-hover:text-sky-200 sm:inline-flex">
+      <span class="hidden text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-slate-400 transition group-hover:text-indigo-500 dark:text-slate-500 dark:group-hover:text-sky-200 sm:inline-flex">
         {{ isDark ? 'Mode Gelap' : 'Mode Terang' }}
       </span>
     </template>
     <span
-      class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-sky-500/0 via-white/60 to-emerald-500/0 opacity-0 transition group-hover:opacity-100 dark:via-white/10"
+      class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-indigo-500/0 via-white/60 to-sky-500/0 opacity-0 transition group-hover:opacity-100 dark:via-white/5"
     ></span>
   </button>
 </template>
