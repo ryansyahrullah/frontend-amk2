@@ -1,237 +1,149 @@
 <template>
   <transition name="fade">
-    <div v-if="mobileOpen" class="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden" @click="$emit('close-mobile')"></div>
+    <div v-if="mobileOpen" class="fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-sm lg:hidden" @click="$emit('close-mobile')"></div>
   </transition>
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-40 flex h-screen w-72 flex-col border-r border-slate-200 bg-white transition-all duration-200 dark:border-slate-800 dark:bg-slate-900',
-      mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      'fixed inset-y-0 left-0 z-40 flex h-screen w-full max-w-[19rem] flex-col space-y-5 border-r border-white/10 bg-slate-950/80 px-4 py-6 backdrop-blur-2xl transition-all duration-300 ease-out',
+      mobileOpen ? 'translate-x-0 shadow-[0_40px_80px_-30px_rgba(30,64,175,0.75)]' : '-translate-x-full lg:translate-x-0'
     ]"
   >
-    <div class="flex h-20 items-center px-6">
-      <img src="/logo.svg" alt="Logo AMK PORTAL" class="h-12 w-auto object-contain" />
-      <span class="ml-4 text-lg font-semibold uppercase tracking-wide text-slate-800 dark:text-slate-100">AMK PORTAL</span>
-    </div>
-    <nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-6">
-      <div v-for="item in menuItems" :key="item.id" class="space-y-1">
-        <RouterLink
-          v-if="!item.children"
-          :to="item.to"
-          class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition"
-          :class="[
-            isRouteActive(item.to, item.exact)
-              ? 'bg-primary text-white shadow-sm'
-              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-          ]"
-        >
-          <span
-            class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary group-[.bg-primary]:bg-white group-[.bg-primary]:text-primary"
-          >
-            <svg v-if="item.icon === 'dashboard'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h9M3.75 18.75h9" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 14.25h3.75M16.5 18.75h3.75" />
-            </svg>
-            <svg v-else-if="item.icon === 'pegawai'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-            </svg>
-            <svg v-else-if="item.icon === 'list'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15M4.5 12h15M4.5 17.25h15" />
-            </svg>
-            <svg v-else-if="item.icon === 'leave'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.5H8.25A3.75 3.75 0 0 0 4.5 11.25v0A3.75 3.75 0 0 0 8.25 15H19.5" />
-            </svg>
-            <svg v-else-if="item.icon === 'health'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75V9" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m13.5 5.25-.75-1.5-.75 1.5" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-2.25" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 18.75.75 1.5.75-1.5" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h2.25" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 10.5-1.5.75 1.5.75" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M18 12h-2.25" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 13.5 1.5-.75-1.5-.75" />
-              <circle cx="12" cy="12" r="3.75" />
-            </svg>
-            <svg v-else-if="item.icon === 'contract'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75h-9A2.25 2.25 0 0 0 5.25 6v12A2.25 2.25 0 0 0 7.5 20.25h9A2.25 2.25 0 0 0 18.75 18V6A2.25 2.25 0 0 0 16.5 3.75Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25h6M9 12h6M9 15.75h3" />
-            </svg>
-            <svg v-else-if="item.icon === 'profile'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-            </svg>
-            <svg v-else-if="item.icon === 'salary'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5.25h18v13.5H3z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 9h9m-9 3h9m-9 3h5.25" />
-            </svg>
-            <svg v-else-if="item.icon === 'finance'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 19.5h16.5M4.5 8.25h15L12 4.5z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 11.25v5.25m4.5-5.25v5.25m4.5-5.25v5.25" />
-            </svg>
-            <svg v-else-if="item.icon === 'site'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 6.75h18M3 12h18M3 17.25h9" />
-              <circle cx="17" cy="17" r="2.25" />
-            </svg>
+    <div class="space-y-6 overflow-y-auto pr-1">
+      <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-primary/60 via-primary/30 to-sky-500/40 p-5 text-white shadow-[0_30px_70px_-20px_rgba(37,99,235,0.6)]">
+        <div class="pointer-events-none absolute -right-10 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-white/25 blur-3xl"></div>
+        <p class="text-[0.65rem] uppercase tracking-[0.4em] text-white/70">AMK Portal</p>
+        <h1 class="mt-2 text-lg font-semibold leading-tight">Command Center</h1>
+        <p class="mt-3 text-xs text-white/80">
+          Kelola SDM, pantau aktivitas, dan jalankan proses HR secara terpadu.
+        </p>
+        <div class="mt-4 flex items-center gap-2 text-[0.7rem] text-white/80">
+          <span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1">
+            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+            Aktif
           </span>
-          <span>{{ item.label }}</span>
-        </RouterLink>
-        <div v-else>
-          <button
-            type="button"
-            class="group flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition"
-            :class="[
-              isParentActive(item)
-                ? 'bg-primary text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-            ]"
-            @click="handleParentClick(item)"
-          >
-            <span class="flex flex-1 items-center gap-3">
-              <span
-                class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary group-[.bg-primary]:bg-white group-[.bg-primary]:text-primary"
-              >
-                <svg v-if="item.icon === 'dashboard'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h9M3.75 18.75h9" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 14.25h3.75M16.5 18.75h3.75" />
-                </svg>
-                <svg v-else-if="item.icon === 'pegawai'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-                </svg>
-                <svg v-else-if="item.icon === 'list'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15M4.5 12h15M4.5 17.25h15" />
-                </svg>
-                <svg v-else-if="item.icon === 'leave'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.5H8.25A3.75 3.75 0 0 0 4.5 11.25v0A3.75 3.75 0 0 0 8.25 15H19.5" />
-                </svg>
-                <svg v-else-if="item.icon === 'health'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75V9" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m13.5 5.25-.75-1.5-.75 1.5" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-2.25" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 18.75.75 1.5.75-1.5" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h2.25" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 10.5-1.5.75 1.5.75" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12h-2.25" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 13.5 1.5-.75-1.5-.75" />
-                  <circle cx="12" cy="12" r="3.75" />
-                </svg>
-                <svg v-else-if="item.icon === 'contract'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75h-9A2.25 2.25 0 0 0 5.25 6v12A2.25 2.25 0 0 0 7.5 20.25h9A2.25 2.25 0 0 0 18.75 18V6A2.25 2.25 0 0 0 16.5 3.75Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25h6M9 12h6M9 15.75h3" />
-                </svg>
-              </span>
-              <span>{{ item.label }}</span>
-            </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 transition-transform"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="1.5"
-              :class="isExpanded(item.id) ? 'rotate-180' : ''"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          <span class="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
             </svg>
-          </button>
-          <transition name="accordion">
-            <div
-              v-if="isExpanded(item.id)"
-              class="ml-4 mt-1.5 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-800"
-            >
-              <RouterLink
-                v-for="child in item.children"
-                :key="child.id"
-                :to="child.to"
-                class="group flex items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-sm transition"
-                :class="[
-                  isRouteActive(child.to, child.exact)
-                    ? 'bg-primary/10 text-primary shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-                ]"
-              >
-                <span class="flex items-center gap-3">
-                  <span
-                    class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary/5 text-primary group-[.bg-primary/10]:bg-white group-[.bg-primary/10]:text-primary"
-                  >
-                    <svg v-if="child.icon === 'dashboard'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h9M3.75 18.75h9" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 14.25h3.75M16.5 18.75h3.75" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'pegawai'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'list'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15M4.5 12h15M4.5 17.25h15" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'leave'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.5H8.25A3.75 3.75 0 0 0 4.5 11.25v0A3.75 3.75 0 0 0 8.25 15H19.5" />
-                    </svg>
-                    <svg v-else-if="child.icon === 'health'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75V9" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m13.5 5.25-.75-1.5-.75 1.5" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-2.25" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 18.75.75 1.5.75-1.5" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h2.25" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 10.5-1.5.75 1.5.75" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 12h-2.25" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 13.5 1.5-.75-1.5-.75" />
-                      <circle cx="12" cy="12" r="3.75" />
-                    </svg>
-                <svg v-else-if="child.icon === 'contract'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75h-9A2.25 2.25 0 0 0 5.25 6v12A2.25 2.25 0 0 0 7.5 20.25h9A2.25 2.25 0 0 0 18.75 18V6A2.25 2.25 0 0 0 16.5 3.75Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25h6M9 12h6M9 15.75h3" />
-                </svg>
-                <svg v-else-if="child.icon === 'profile'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
-                </svg>
-                <svg v-else-if="child.icon === 'salary'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5.25h18v13.5H3z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 9h9m-9 3h9m-9 3h5.25" />
-                </svg>
-                <svg v-else-if="child.icon === 'finance'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 19.5h16.5M4.5 8.25h15L12 4.5z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 11.25v5.25m4.5-5.25v5.25m4.5-5.25v5.25" />
-                </svg>
-                <svg v-else-if="child.icon === 'site'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 6.75h18M3 12h18M3 17.25h9" />
-                  <circle cx="17" cy="17" r="2.25" />
-                </svg>
-              </span>
-                  <span>{{ child.label }}</span>
-                </span>
-              </RouterLink>
-            </div>
-          </transition>
+            Modul terbaru
+          </span>
         </div>
       </div>
-    </nav>
-    <div class="border-t border-slate-200 px-4 py-4 dark:border-slate-800">
-      <div class="mb-3 flex items-center gap-3">
-        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-lg font-semibold text-primary dark:bg-primary/20">
+
+      <nav class="space-y-4 text-sm text-slate-200">
+        <div class="px-2 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-500">Navigasi</div>
+        <div v-for="item in menuItems" :key="item.id" class="space-y-1">
+          <RouterLink
+            v-if="!item.children"
+            :to="item.to"
+            class="group relative flex items-center gap-3 rounded-3xl border border-transparent bg-white/5 px-4 py-3 transition hover:border-primary/60 hover:bg-primary/10"
+            :class="[
+              isRouteActive(item.to, item.exact)
+                ? 'border-primary/70 bg-primary/20 text-white shadow-[0_20px_40px_-20px_rgba(59,130,246,0.8)]'
+                : 'text-slate-300'
+            ]"
+          >
+            <span
+              class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/15 text-primary group-[.border-primary\/70]:bg-white/20 group-[.border-primary\/70]:text-white"
+            >
+              <SidebarIcon :name="item.icon" />
+            </span>
+            <div class="flex-1">
+              <p class="font-semibold">{{ item.label }}</p>
+              <p class="text-[0.65rem] text-slate-400 group-[.border-primary/70]:text-white/80">Akses modul utama</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500 group-[.border-primary/70]:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7" />
+            </svg>
+          </RouterLink>
+          <div v-else class="rounded-3xl border border-white/5 bg-white/5 p-2">
+            <button
+              type="button"
+              class="flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-2.5 text-left font-semibold text-slate-200 transition hover:text-white"
+              :class="[
+                isParentActive(item)
+                  ? 'bg-primary/20 text-white'
+                  : ''
+              ]"
+              @click="handleParentClick(item)"
+            >
+              <span class="flex flex-1 items-center gap-3">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/15 text-primary group-[.bg-primary/20]:bg-white/20 group-[.bg-primary/20]:text-white">
+                  <SidebarIcon :name="item.icon" />
+                </span>
+                <span>{{ item.label }}</span>
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.5"
+                :class="isExpanded(item.id) ? 'rotate-180' : ''"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </button>
+            <transition name="accordion">
+              <div
+                v-if="isExpanded(item.id)"
+                class="mt-2 space-y-1 rounded-2xl bg-slate-900/80 p-2"
+              >
+                <RouterLink
+                  v-for="child in item.children"
+                  :key="child.id"
+                  :to="child.to"
+                  class="group flex items-center justify-between gap-2 rounded-2xl px-3 py-2 text-sm transition hover:bg-primary/10 hover:text-white"
+                  :class="[
+                    isRouteActive(child.to, child.exact)
+                      ? 'bg-primary/25 text-white shadow-[0_16px_30px_-18px_rgba(59,130,246,0.75)]'
+                      : 'text-slate-300'
+                  ]"
+                >
+                  <span class="flex items-center gap-3">
+                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary group-[.bg-primary\/25]:bg-white/20 group-[.bg-primary\/25]:text-white">
+                      <SidebarIcon :name="child.icon" />
+                    </span>
+                    <span>{{ child.label }}</span>
+                  </span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7" />
+                  </svg>
+                </RouterLink>
+              </div>
+            </transition>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="space-y-4 rounded-3xl border border-white/5 bg-white/5 p-4 text-sm text-slate-200 shadow-inner">
+      <div class="flex items-center gap-3">
+        <div class="gradient-ring flex h-12 w-12 items-center justify-center bg-primary/30 text-base font-semibold uppercase text-white">
           {{ inisialUser }}
         </div>
-        <div class="text-sm">
-          <p class="font-semibold text-slate-800 dark:text-slate-100">{{ user?.nama ?? 'Admin AMK PORTAL' }}</p>
-          <p class="text-xs text-slate-500 dark:text-slate-400">{{ user?.email ?? 'admin@gmail.com' }}</p>
+        <div>
+          <p class="font-semibold">{{ user?.nama ?? 'Admin AMK PORTAL' }}</p>
+          <p class="text-xs text-slate-400">{{ user?.email ?? 'admin@gmail.com' }}</p>
         </div>
       </div>
       <button
         type="button"
-        class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:border-red-400 hover:bg-red-50 hover:text-red-600 dark:border-slate-700 dark:text-slate-200 dark:hover:border-red-400/60 dark:hover:bg-red-500/10 dark:hover:text-red-300"
+        class="shimmer flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-gradient-to-r from-rose-500/30 via-rose-400/25 to-amber-400/30 px-4 py-2 text-sm font-semibold text-white transition hover:from-rose-500/50 hover:via-rose-400/40 hover:to-amber-400/40"
         @click="handleLogoutClick"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
         </svg>
-        <span>Keluar</span>
+        Keluar
       </button>
+      <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-3 text-[0.7rem] leading-relaxed text-slate-400">
+        <p class="font-semibold text-slate-200">Butuh bantuan?</p>
+        <p class="mt-1 text-slate-400">Hubungi tim HC melalui portal internal atau email support@amk.co.id</p>
+      </div>
     </div>
+
     <ConfirmDialog
       v-model="showLogoutConfirm"
       title="Keluar dari AMK PORTAL"
@@ -248,6 +160,7 @@ import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import ConfirmDialog from './ConfirmDialog.vue';
 import type { UserRole } from '../types';
+import SidebarIcon from './icons/SidebarIcon.vue';
 
 interface MenuChild {
   id: string;
@@ -532,7 +445,7 @@ const confirmLogout = async () => {
 
 .accordion-enter-active,
 .accordion-leave-active {
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .accordion-enter-from,
