@@ -4,81 +4,101 @@
   </transition>
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-40 flex h-screen w-full max-w-[19rem] flex-col space-y-6 border-r border-white/70 bg-white/85 px-5 py-6 backdrop-blur-[32px] transition-all duration-300 ease-out dark:border-white/10 dark:bg-white/5',
+      'fixed inset-y-0 left-0 z-40 flex h-screen w-full max-w-[21rem] flex-col space-y-6 border-r border-white/50 bg-white/75 px-5 py-6 backdrop-blur-[32px] transition-all duration-300 ease-out dark:border-white/10 dark:bg-white/5',
       mobileOpen ? 'translate-x-0 shadow-[0_60px_140px_-70px_rgba(14,116,144,0.55)]' : '-translate-x-full lg:translate-x-0'
     ]"
   >
     <div class="flex h-full flex-col gap-6 overflow-hidden">
-      <div class="space-y-6 overflow-y-auto pr-1">
-        <div class="ocean-panel p-6 text-sm">
+      <div class="space-y-6 overflow-y-auto pb-24 pr-1 nova-gentle-scrollbar">
+        <div class="nova-shell overflow-hidden p-6 text-sm">
           <div class="pointer-events-none absolute inset-0 opacity-80">
-            <div class="absolute -left-16 top-0 h-36 w-36 rounded-full bg-sky-200/45 blur-3xl"></div>
-            <div class="absolute -right-16 bottom-[-30%] h-44 w-44 rounded-full bg-emerald-200/40 blur-[160px]"></div>
+            <div class="absolute -left-20 top-0 h-40 w-40 rounded-full bg-sky-200/45 blur-[160px] dark:bg-sky-500/25"></div>
+            <div class="absolute -right-24 bottom-[-35%] h-48 w-48 rounded-full bg-emerald-200/40 blur-[200px] dark:bg-purple-500/25"></div>
           </div>
-          <div class="relative space-y-5">
-            <span class="ocean-chip text-sky-500">CoachPro</span>
-            <div class="space-y-2 text-slate-600 dark:text-slate-200">
-              <h1 class="text-2xl font-semibold leading-tight text-slate-900 dark:text-white">Dasbor SDM terpadu</h1>
-              <p class="text-sm text-slate-500 dark:text-slate-300">
-                Ringkas strategi sumber daya dengan layout baru berlapis kaca dan animasi lembut.
+          <div class="relative space-y-6">
+            <div class="flex items-center justify-between gap-2">
+              <span class="nova-chip text-sky-500">Luminara Portal</span>
+              <span class="nova-pill text-[0.62rem] uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">{{ roleLabel }}</span>
+            </div>
+            <div class="space-y-3 text-slate-600 dark:text-slate-200">
+              <h1 class="text-2xl font-semibold leading-tight text-slate-900 dark:text-white">PT Anugerah Mitra Kalimantan</h1>
+              <p class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                Dasbor HR dimensi baru dengan panel dinamis, animasi halus, dan insight lintas lokasi.
               </p>
             </div>
-            <div class="grid grid-cols-2 gap-3 text-xs">
-              <div class="rounded-[20px] border border-white/70 bg-white/85 px-3 py-2 dark:border-white/10 dark:bg-white/10">
-                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-slate-400">Pegawai</p>
-                <p class="mt-1 text-xl font-semibold text-slate-900 dark:text-white">1.284</p>
+            <div class="grid grid-cols-2 gap-3 text-xs text-slate-500 dark:text-slate-400">
+              <div class="nova-card rounded-[22px] border border-white/70 bg-white/85 p-3 dark:border-white/10 dark:bg-white/10">
+                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.32em]">Pegawai</p>
+                <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.total }}</p>
+                <p class="mt-1 text-[0.68rem] text-slate-400">{{ atlasSummary.active }} aktif</p>
               </div>
-              <div class="rounded-[20px] border border-white/70 bg-white/85 px-3 py-2 dark:border-white/10 dark:bg-white/10">
-                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-slate-400">Site aktif</p>
-                <p class="mt-1 text-xl font-semibold text-slate-900 dark:text-white">27</p>
+              <div class="nova-card rounded-[22px] border border-white/70 bg-white/85 p-3 dark:border-white/10 dark:bg-white/10">
+                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.32em]">Lokasi</p>
+                <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.locations }}</p>
+                <p class="mt-1 text-[0.68rem] text-slate-400">Sebaran Kalimantan</p>
+              </div>
+              <div class="nova-card rounded-[22px] border border-white/70 bg-white/85 p-3 dark:border-white/10 dark:bg-white/10">
+                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.32em]">Onboarding</p>
+                <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.onboarding }}</p>
+                <p class="mt-1 text-[0.68rem] text-slate-400">Batch site baru</p>
+              </div>
+              <div class="nova-card rounded-[22px] border border-white/70 bg-white/85 p-3 dark:border-white/10 dark:bg-white/10">
+                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.32em]">Potensial</p>
+                <p class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">{{ atlasSummary.highPotential }}</p>
+                <p class="mt-1 text-[0.68rem] text-slate-400">Siap akselerasi</p>
               </div>
             </div>
-            <div class="flex flex-wrap gap-2 text-[0.68rem]">
-              <span class="ocean-tag">
-                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500"></span>
-                Operasional stabil
-              </span>
-              <span class="inline-flex items-center gap-2 rounded-full border border-sky-200/70 bg-sky-50 px-3 py-1 font-semibold text-sky-500 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                </svg>
-                Modul baru
-              </span>
+            <div class="rounded-[22px] border border-white/70 bg-white/85 p-4 text-xs text-slate-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-400">
+              <div class="flex items-center gap-3">
+                <span class="nova-icon-sm text-sky-500 dark:text-sky-200">{{ atlasSummary.readinessAverage }}%</span>
+                <div>
+                  <p class="font-semibold text-slate-700 dark:text-white">Readiness index</p>
+                  <p>Rerata kesiapan promosi triwulan ini.</p>
+                </div>
+              </div>
+              <div class="mt-3 h-1.5 rounded-full bg-slate-200/60 dark:bg-white/10">
+                <div class="h-full rounded-full bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500" :style="{ width: readinessProgress }"></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="ocean-card p-5 text-xs">
-          <p class="text-[0.62rem] uppercase tracking-[0.35em] text-slate-400 dark:text-slate-500">Status kilat</p>
-          <div class="mt-4 grid grid-cols-2 gap-3">
-            <div class="flex items-center gap-3 rounded-[20px] border border-white/70 bg-white/85 px-3 py-2 dark:border-white/10 dark:bg-white/10">
-              <span class="ocean-icon-sm text-sky-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15l3.75-6" />
-                </svg>
-              </span>
-              <div>
-                <p class="text-[0.65rem] font-semibold text-slate-500 dark:text-slate-300">Compliance</p>
-                <p class="text-sm font-semibold text-slate-800 dark:text-white">96%</p>
+        <div class="nova-panel space-y-4 p-5 text-xs text-slate-500 dark:text-slate-300">
+          <div class="nova-section-title">
+            <span>Status orbit</span>
+            <span>Realtime</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div
+              v-for="highlight in synergyHighlights"
+              :key="highlight.id"
+              class="group relative overflow-hidden rounded-[20px] border border-white/70 bg-white/85 p-3 text-xs transition hover:-translate-y-0.5 hover:border-sky-300/70 hover:text-sky-600 dark:border-white/10 dark:bg-white/10"
+            >
+              <div class="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
+                <div :class="['absolute inset-0 rounded-[20px]', highlight.overlay]"></div>
+              </div>
+              <div class="relative space-y-2">
+                <p class="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-slate-400 dark:text-slate-500">{{ highlight.label }}</p>
+                <p class="text-lg font-semibold text-slate-900 dark:text-white">{{ highlight.value }}</p>
+                <p>{{ highlight.caption }}</p>
               </div>
             </div>
-            <div class="flex items-center gap-3 rounded-[20px] border border-white/70 bg-white/85 px-3 py-2 dark:border-white/10 dark:bg-white/10">
-              <span class="ocean-icon-sm text-amber-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M12 5.25a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 9.75a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
-                </svg>
-              </span>
-              <div>
-                <p class="text-[0.65rem] font-semibold text-slate-500 dark:text-slate-300">Alert</p>
-                <p class="text-sm font-semibold text-slate-800 dark:text-white">3 prioritas</p>
-              </div>
-            </div>
+          </div>
+          <div class="rounded-[20px] border border-dashed border-white/70 p-4 text-[0.7rem] leading-relaxed text-slate-500 dark:border-white/10 dark:text-slate-400">
+            <p class="font-semibold text-slate-700 dark:text-white">Agenda penting</p>
+            <ul class="mt-2 space-y-1">
+              <li v-for="agenda in focusTimeline" :key="agenda.id" class="flex items-center justify-between gap-2">
+                <span>{{ agenda.title }}</span>
+                <span class="nova-pill text-[0.6rem] tracking-[0.28em] text-slate-400 dark:text-slate-500">{{ agenda.when }}</span>
+              </li>
+            </ul>
           </div>
         </div>
 
         <nav class="space-y-4 text-sm text-slate-500 transition dark:text-slate-300">
-          <div class="px-2 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-400 dark:text-slate-500">Navigasi</div>
+          <div class="px-2 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-400 dark:text-slate-500">
+            Navigasi utama
+          </div>
           <div v-for="item in menuItems" :key="item.id" class="space-y-1">
             <RouterLink
               v-if="!item.children"
@@ -90,7 +110,7 @@
                   : ''
               ]"
             >
-              <span class="ocean-icon-sm border border-white/70 bg-white/85 text-sky-500 transition group-[.border-sky-400\/70]:border-transparent group-[.border-sky-400\/70]:bg-sky-500/20 group-[.border-sky-400\/70]:text-sky-600 dark:border-white/10 dark:bg-white/10">
+              <span class="nova-icon-sm border border-white/70 bg-white/85 text-sky-500 transition group-[.border-sky-400\/70]:border-transparent group-[.border-sky-400\/70]:bg-sky-500/20 group-[.border-sky-400\/70]:text-sky-600 dark:border-white/10 dark:bg-white/10">
                 <SidebarIcon :name="item.icon" />
               </span>
               <div class="flex-1">
@@ -113,7 +133,7 @@
                 @click="handleParentClick(item)"
               >
                 <span class="flex flex-1 items-center gap-3">
-                  <span class="ocean-icon-sm border border-white/70 bg-white/85 text-sky-500 transition group-[.bg-sky-50]:border-transparent group-[.bg-sky-50]:bg-sky-500/15 group-[.bg-sky-50]:text-sky-600 dark:border-white/10 dark:bg-white/10">
+                  <span class="nova-icon-sm border border-white/70 bg-white/85 text-sky-500 transition group-[.bg-sky-50]:border-transparent group-[.bg-sky-50]:bg-sky-500/15 group-[.bg-sky-50]:text-sky-600 dark:border-white/10 dark:bg-white/10">
                     <SidebarIcon :name="item.icon" />
                   </span>
                   <span>{{ item.label }}</span>
@@ -147,7 +167,7 @@
                     ]"
                   >
                     <span class="flex items-center gap-3">
-                      <span class="ocean-icon-sm border border-white/70 bg-white/85 text-sky-500 transition group-[.bg-sky-50]:border-transparent group-[.bg-sky-50]:bg-sky-500/15 group-[.bg-sky-50]:text-sky-600 dark:border-white/10 dark:bg-white/10">
+                      <span class="nova-icon-sm border border-white/70 bg-white/85 text-sky-500 transition group-[.bg-sky-50]:border-transparent group-[.bg-sky-50]:bg-sky-500/15 group-[.bg-sky-50]:text-sky-600 dark:border-white/10 dark:bg-white/10">
                         <SidebarIcon :name="child.icon" />
                       </span>
                       <span>{{ child.label }}</span>
@@ -163,9 +183,9 @@
         </nav>
       </div>
 
-      <div class="ocean-card space-y-4 p-5 text-sm text-slate-600 dark:text-slate-200">
+      <div class="nova-panel space-y-4 p-5 text-sm text-slate-600 dark:text-slate-200">
         <div class="flex items-center gap-3">
-          <div class="ocean-icon-sm text-sky-500 dark:text-sky-200">{{ inisialUser }}</div>
+          <div class="nova-avatar text-xs">{{ inisialUser }}</div>
           <div>
             <p class="font-semibold text-slate-900 dark:text-white">{{ user?.nama ?? 'Admin AMK PORTAL' }}</p>
             <p class="text-xs text-slate-400 dark:text-slate-500">{{ user?.email ?? 'admin@gmail.com' }}</p>
@@ -183,7 +203,7 @@
         </div>
         <button
           type="button"
-          class="flex w-full items-center justify-center gap-2 rounded-[20px] border border-transparent bg-gradient-to-r from-sky-100 via-sky-50 to-emerald-100 px-4 py-2 text-sm font-semibold text-sky-600 transition hover:from-sky-200 hover:via-sky-100 hover:to-emerald-200 dark:from-sky-500/20 dark:via-sky-500/10 dark:to-emerald-400/20 dark:text-sky-200"
+          class="nova-glass-button w-full justify-center text-sky-600 hover:text-sky-500 dark:text-sky-200"
           @click="handleLogoutClick"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -215,6 +235,8 @@ import { useAuthStore } from '../stores/auth';
 import ConfirmDialog from './ConfirmDialog.vue';
 import type { UserRole } from '../types';
 import SidebarIcon from './icons/SidebarIcon.vue';
+import { roleLabelMap } from '../constants/roles';
+import { employeeAtlas } from '../data/employeeAtlas';
 
 interface MenuChild {
   id: string;
@@ -354,6 +376,12 @@ const menuItems = computed<MenuItem[]>(() => {
 });
 
 const user = computed(() => auth.state.user);
+const roleLabel = computed(() => {
+  const role = user.value?.role;
+  if (!role) return 'Pengguna';
+  return roleLabelMap[role] ?? role;
+});
+
 const inisialUser = computed(() => {
   if (!user.value) return 'AD';
   return user.value.nama
@@ -363,6 +391,75 @@ const inisialUser = computed(() => {
     .slice(0, 2)
     .toUpperCase();
 });
+
+const atlasSummary = (() => {
+  let active = 0;
+  let onboarding = 0;
+  let rotation = 0;
+  let highPotential = 0;
+  let highRisk = 0;
+  let readinessTotal = 0;
+  const locations = new Set<string>();
+  for (const item of employeeAtlas) {
+    locations.add(item.location);
+    if (item.status === 'Aktif') active += 1;
+    if (item.status === 'Onboarding') onboarding += 1;
+    if (item.status === 'Rotasi' || item.status === 'Mutasi') rotation += 1;
+    if (item.potentialScore >= 90) highPotential += 1;
+    if (item.riskLevel === 'Tinggi') highRisk += 1;
+    readinessTotal += item.readinessIndex;
+  }
+  const readinessAverage = Math.round(readinessTotal / employeeAtlas.length);
+  return {
+    total: employeeAtlas.length,
+    active,
+    onboarding,
+    rotation,
+    highPotential,
+    highRisk,
+    locations: locations.size,
+    readinessAverage
+  };
+})();
+
+const readinessProgress = `${Math.min(100, Math.max(0, atlasSummary.readinessAverage))}%`;
+
+const synergyHighlights = computed(() => [
+  {
+    id: 'rotation',
+    label: 'Rotasi & Mutasi',
+    value: `${atlasSummary.rotation} kru`,
+    caption: 'Penyesuaian per empat site prioritas.',
+    overlay: 'bg-gradient-to-br from-indigo-100/35 via-transparent to-sky-100/30 dark:from-indigo-500/15 dark:to-sky-500/15'
+  },
+  {
+    id: 'risk',
+    label: 'Alert risiko tinggi',
+    value: `${atlasSummary.highRisk}`,
+    caption: 'Perlu sesi coaching pekan ini.',
+    overlay: 'bg-gradient-to-br from-rose-100/35 via-transparent to-amber-100/30 dark:from-rose-500/15 dark:to-amber-500/15'
+  },
+  {
+    id: 'engagement',
+    label: 'Skor wellbeing',
+    value: `${atlasSummary.active > 0 ? Math.round((atlasSummary.active / atlasSummary.total) * 100) : 0}% aktif`,
+    caption: 'Partisipasi program apresiasi.',
+    overlay: 'bg-gradient-to-br from-emerald-100/35 via-transparent to-teal-100/30 dark:from-emerald-500/15 dark:to-teal-500/15'
+  },
+  {
+    id: 'talent',
+    label: 'Talent pipeline',
+    value: `${atlasSummary.highPotential} kandidat`,
+    caption: 'Siap untuk promosi lintas site.',
+    overlay: 'bg-gradient-to-br from-sky-100/35 via-transparent to-emerald-100/30 dark:from-sky-500/15 dark:to-emerald-500/15'
+  }
+]);
+
+const focusTimeline = computed(() => [
+  { id: 'townhall', title: 'Townhall Kalimantan Timur', when: '7 Juni' },
+  { id: 'coaching', title: 'Coaching supervisor site', when: '9 Juni' },
+  { id: 'audit', title: 'Audit dokumen kontrak', when: '12 Juni' }
+]);
 
 watch(
   () => route.fullPath,
